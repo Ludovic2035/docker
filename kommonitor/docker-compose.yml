@@ -1,0 +1,67 @@
+version: '3'
+
+networks:
+  kommonitor:
+    driver: bridge
+services:
+    # database container; must use PostGIS database
+    # database is not required to run in docker - will be configured in Data Management component
+    kommonitor-db:
+      image: mdillon/postgis
+      container_name: kommonitor-db
+      ports:
+        - 5432:5432
+      environment:
+        - POSTGRES_USER=${DB_USER}
+        - POSTGRES_PASSWORD=${DB_PW}
+        - POSTGRES_DB=${DB_NAME}
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+      networks:
+        - kommonitor
+
+    # Data Management component encapsulating the database access and management as REST service
+    kommonitor-data-management:
+      image: kommonitor/data-management
+      container_name: kommonitor-data-management
+      depends_on:
+        - kommonitor-db
+      ports:
+        - 8085:8085
+      networks:
+        - kommonitor
+      links:
+        - kommonitor-db
+      env_file:
+        - ./env/data-management.env
+      environment:
+        - DATABASE_USER=${DB_USER}
+        - DATABASE_PASSWORD=${DB_PW}
+        - DATABASE_NAME=${DB_NAME}
+        - PORT=8085
+        
+    # Importer component for importing datasets via Data Management
+    kommonitor-importer:
+      image: kommonitor/importer:latest
+      env_file:
+        - ./env/importer.env
+      ports:
+      - 8086:8086
+      environment:
+       - PORT=8086
+
+    # simple REST service that stores and serves various config files for KomMonitor clients (i.e. web-client)   
+    kommonitor-client-config:          
+      image: 'kommonitor/client-config'
+      container_name: kommonitor-client-config
+      ports:
+        - 8087:8087
+      networks:
+       - kommonitor 
+      volumes:
+       - client_config_storage:/code/configStorage
+      environment:
+       - PORT=8087
+volumes:
+ postgres_data:
+ client_config_storage:
