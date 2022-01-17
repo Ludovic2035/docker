@@ -38,7 +38,7 @@ services:
         - DATABASE_USER=${DB_USER}
         - DATABASE_PASSWORD=${DB_PW}
         - DATABASE_NAME=${DB_NAME}
-        - PORT=8085
+        - SERVER_PORT=8085
         
     # Importer component for importing datasets via Data Management
     kommonitor-importer:
@@ -48,7 +48,7 @@ services:
       ports:
       - 8086:8086
       environment:
-       - PORT=8086
+       - SERVER_PORT=8086
 
     # simple REST service that stores and serves various config files for KomMonitor clients (i.e. web-client)   
     kommonitor-client-config:          
