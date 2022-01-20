@@ -46,22 +46,22 @@ services:
       env_file:
         - ./env/importer.env
       ports:
-      - 8086:8086
+      - 8087:8087
       environment:
-       - SERVER_PORT=8086
+       - SERVER_PORT=8087
 
     # simple REST service that stores and serves various config files for KomMonitor clients (i.e. web-client)   
     kommonitor-client-config:          
       image: 'kommonitor/client-config'
       container_name: kommonitor-client-config
       ports:
-        - 8087:8087
+        - 8088:8088
       networks:
        - kommonitor 
       volumes:
        - client_config_storage:/code/configStorage
       environment:
-       - PORT=8087
+       - PORT=8088
 volumes:
  postgres_data:
  client_config_storage:
