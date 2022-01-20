@@ -721,7 +721,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "data-management-secret",
       "redirectUris": [
         "http://localhost:8085/*"
       ],
@@ -833,7 +833,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "importer-secret",
       "redirectUris": [
         "http://localhost:8087/*"
       ],

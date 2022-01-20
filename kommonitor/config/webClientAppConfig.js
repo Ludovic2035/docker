@@ -99,7 +99,7 @@ try {
   window.__env.targetUrlToReachabilityService_OTP = 'http://localhost:8090/opentripplanner';
 
   // Data Imporret URL
-  window.__env.targetUrlToImporterService = 'http://localhost:8086/importer/';
+  window.__env.targetUrlToImporterService = 'http://localhost:8087/importer/';
 
   // optional geometry simplification (a feature of Data Management API)
   window.__env.simplifyGeometriesParameterName = "simplifyGeometries";

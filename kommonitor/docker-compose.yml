@@ -4,6 +4,24 @@ networks:
   kommonitor:
     driver: bridge
 services:
+    keycloak:
+      image: jboss/keycloak:latest
+      container_name: keycloak
+      volumes:
+        - ../keycloak/realms/realm-export.json:/tmp/realm-export.json
+      environment:
+        DB_VENDOR: h2
+        KEYCLOAK_USER: admin
+        KEYCLOAK_PASSWORD: admin
+        KEYCLOAK_IMPORT: /tmp/realm-export.json
+        KEYCLOAK_FRONTEND_URL: http://localhost:8080/auth
+      expose:
+        - 8080
+      ports:
+        - 8080:8080
+      networks:
+        - kommonitor
+
     # database container; must use PostGIS database
     # database is not required to run in docker - will be configured in Data Management component
     kommonitor-db:
@@ -26,6 +44,7 @@ services:
       container_name: kommonitor-data-management
       depends_on:
         - kommonitor-db
+        - keycloak
       ports:
         - 8085:8085
       networks:
