@@ -59,9 +59,8 @@ services:
       networks:
        - kommonitor 
       volumes:
-       - client_config_storage:/code/configStorage
+       - ./config/:/code/configStorage
       environment:
        - PORT=8088
 volumes:
  postgres_data:
- client_config_storage:
