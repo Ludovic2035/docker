@@ -5,9 +5,11 @@ services:
       container_name: keycloak
       volumes:
         - ./themes/kommonitor:/opt/jboss/keycloak/themes/kommonitor
+        - ./realms/realm-export.json:/tmp/realm-export.json
       environment:
         DB_VENDOR: h2
         KEYCLOAK_USER: admin
         KEYCLOAK_PASSWORD: admin
+        KEYCLOAK_IMPORT: /tmp/realm-export.json
       ports:
         - 8080:8080
