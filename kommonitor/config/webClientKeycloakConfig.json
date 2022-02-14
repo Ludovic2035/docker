@@ -1,6 +1,6 @@
 {
     "realm": "kommonitor",
-    "auth-server-url": "http://localhost:8080/auth",
+    "auth-server-url": "http://localhost:8080/auth/",
     "ssl-required": "external",
     "resource": "kommonitor-web-client",
     "public-client": true,

@@ -45,6 +45,8 @@ services:
       depends_on:
         - kommonitor-db
         - keycloak
+      expose:
+        - 8085
       ports:
         - 8085:8085
       networks:
@@ -60,12 +62,15 @@ services:
         - SERVER_PORT=8085
         
     # Importer component for importing datasets via Data Management
+    # TODO: set proper env variables
     kommonitor-importer:
       image: kommonitor/importer:latest
       env_file:
         - ./env/importer.env
       ports:
-      - 8087:8087
+        - 8087:8087
+      networks:
+        - kommonitor
       environment:
        - SERVER_PORT=8087
 
