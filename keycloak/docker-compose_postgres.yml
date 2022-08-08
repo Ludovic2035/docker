@@ -31,7 +31,7 @@ services:
         - 8080:8080
       volumes:
         - ./themes/kommonitor:/opt/jboss/keycloak/themes/kommonitor
-        - ./realms/realm-export.json:/tmp/realm-export.json
+        - ./realms/realm-export_template_localhost.json:/tmp/realm-export.json
       restart: unless-stopped
       environment:
         - DB_VENDOR=postgres
