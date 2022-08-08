@@ -1,0 +1,24 @@
+version: '3'
+      
+networks:
+  keycloak:
+    driver: bridge
+
+services:
+  keycloak:
+      image: jboss/keycloak:latest
+      container_name: keycloak
+      networks:
+        - keycloak
+      ports:
+        - 8080:8080
+      volumes:
+        - ./themes/kommonitor:/opt/jboss/keycloak/themes/kommonitor
+        - ./realms/realm-export.json:/tmp/realm-export.json
+      restart: unless-stopped
+      environment:
+        - DB_VENDOR=h2      
+        - KEYCLOAK_USER=admin
+        - KEYCLOAK_PASSWORD=KiTdNnJikOBRIEMnAI4U
+        - KEYCLOAK_IMPORT=/tmp/realm-export.json
+        - PROXY_ADDRESS_FORWARDING=true

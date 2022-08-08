@@ -1,0 +1,48 @@
+version: '3'
+
+volumes:
+  postgres_data_keycloak:
+      driver: local
+      
+networks:
+  keycloak:
+    driver: bridge
+
+services:
+  keycloak-db:
+      image: postgres:latest
+      container_name: keycloak-db
+      restart: unless-stopped
+      networks:
+        - keycloak
+      volumes:
+        - postgres_data_keycloak:/var/lib/postgresql/data
+        # - /var/kommonitor/keycloak/data:/var/lib/postgresql/data
+      environment:
+        POSTGRES_DB: keycloak-data
+        POSTGRES_USER: keycloak
+        POSTGRES_PASSWORD: kbkajhsbf23hgv
+  keycloak:
+      image: jboss/keycloak:latest
+      container_name: keycloak
+      networks:
+        - keycloak
+      ports:
+        - 8080:8080
+      volumes:
+        - ./themes/kommonitor:/opt/jboss/keycloak/themes/kommonitor
+        - ./realms/realm-export.json:/tmp/realm-export.json
+      restart: unless-stopped
+      environment:
+        - DB_VENDOR=postgres
+        - DB_ADDR=keycloak-db
+        - DB_DATABASE=keycloak-data
+        - DB_USER=keycloak
+        - DB_SCHEMA=public
+        - DB_PASSWORD=kbkajhsbf23hgv        
+        - KEYCLOAK_USER=admin
+        - KEYCLOAK_PASSWORD=KiTdNnJikOBRIEMnAI4U
+        - KEYCLOAK_IMPORT=/tmp/realm-export.json
+        - PROXY_ADDRESS_FORWARDING=true
+      depends_on:
+        - keycloak-db

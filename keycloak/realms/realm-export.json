@@ -68,6 +68,32 @@
         "attributes": {}
       },
       {
+        "id": "e7418caa-688b-4ff2-b313-c5e9c8d78ab3",
+        "name": "kommonitor-viewer",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "kommonitor",
+        "attributes": {}
+      },
+      {
+        "id": "908c62a7-099f-48e3-b0fc-1b5dc5d3078d",
+        "name": "kommonitor-creator",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "kommonitor-publisher"
+          ],
+          "client": {
+            "realm-management": [
+              "realm-admin"
+            ]
+          }
+        },
+        "clientRole": false,
+        "containerId": "kommonitor",
+        "attributes": {}
+      },
+      {
         "id": "a4585caa-1075-4961-9361-288ce43e8195",
         "name": "uma_authorization",
         "description": "${role_uma_authorization}",
@@ -83,27 +109,6 @@
         "composites": {
           "realm": [
             "kommonitor-viewer"
-          ]
-        },
-        "clientRole": false,
-        "containerId": "kommonitor",
-        "attributes": {}
-      },
-      {
-        "id": "e7418caa-688b-4ff2-b313-c5e9c8d78ab3",
-        "name": "kommonitor-viewer",
-        "composite": false,
-        "clientRole": false,
-        "containerId": "kommonitor",
-        "attributes": {}
-      },
-      {
-        "id": "908c62a7-099f-48e3-b0fc-1b5dc5d3078d",
-        "name": "kommonitor-creator",
-        "composite": true,
-        "composites": {
-          "realm": [
-            "kommonitor-publisher"
           ]
         },
         "clientRole": false,
@@ -133,7 +138,6 @@
       }
     ],
     "client": {
-      "kommonitor-data-management": [],
       "realm-management": [
         {
           "id": "5356eaf0-6e0d-480e-9a6d-84c21556060d",
@@ -347,9 +351,8 @@
         }
       ],
       "kommonitor-importer": [],
-      "kommonitor-web-client": [],
       "security-admin-console": [],
-      "admin-cli": [],
+      "kommonitor-processing-scheduler": [],
       "account-console": [],
       "broker": [
         {
@@ -362,6 +365,12 @@
           "attributes": {}
         }
       ],
+      "kommonitor-processing-engine": [],
+      "kommonitor-client-config": [],
+      "kommonitor-data-management": [],
+      "kommonitor-web-client": [],
+      "admin-cli": [],
+      "kommonitor-harvester": [],
       "account": [
         {
           "id": "872dd212-6591-49e9-a595-feeab25c6a69",
@@ -491,8 +500,24 @@
   "webAuthnPolicyPasswordlessAcceptableAaguids": [],
   "users": [
     {
-      "id": "56692f20-fc2b-4be7-aa10-8ba6706d6eba",
-      "createdTimestamp": 1642586130738,
+      "id": "9291a212-9756-4b0b-b8c2-c2106eb97a62",
+      "createdTimestamp": 1659953857815,
+      "username": "service-account-kommonitor-client-config",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "serviceAccountClientId": "kommonitor-client-config",
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-kommonitor"
+      ],
+      "notBefore": 0,
+      "groups": []
+    },
+    {
+      "id": "8d455124-d42b-4f6f-9322-191af15b8de8",
+      "createdTimestamp": 1659953857847,
       "username": "service-account-kommonitor-data-management",
       "enabled": true,
       "totp": false,
@@ -507,13 +532,61 @@
       "groups": []
     },
     {
-      "id": "481f53ff-52ff-44a5-b0df-1f4e0f8fb24d",
-      "createdTimestamp": 1642586323821,
+      "id": "ed43b0e4-027a-4df1-8254-c305d6451908",
+      "createdTimestamp": 1659953857868,
+      "username": "service-account-kommonitor-harvester",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "serviceAccountClientId": "kommonitor-harvester",
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-kommonitor"
+      ],
+      "notBefore": 0,
+      "groups": []
+    },
+    {
+      "id": "cb5db9cc-b6ec-4def-bee5-e89efe47e816",
+      "createdTimestamp": 1659953857884,
       "username": "service-account-kommonitor-importer",
       "enabled": true,
       "totp": false,
       "emailVerified": false,
       "serviceAccountClientId": "kommonitor-importer",
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-kommonitor"
+      ],
+      "notBefore": 0,
+      "groups": []
+    },
+    {
+      "id": "693d1323-ed2f-43b5-a16d-1eb0854bff9c",
+      "createdTimestamp": 1659953857898,
+      "username": "service-account-kommonitor-processing-engine",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "serviceAccountClientId": "kommonitor-processing-engine",
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-kommonitor"
+      ],
+      "notBefore": 0,
+      "groups": []
+    },
+    {
+      "id": "80cabb42-3749-43f5-821c-9434adc9fb98",
+      "createdTimestamp": 1659953857923,
+      "username": "service-account-kommonitor-processing-scheduler",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "serviceAccountClientId": "kommonitor-processing-scheduler",
       "disableableCredentialTypes": [],
       "requiredActions": [],
       "realmRoles": [
@@ -711,22 +784,127 @@
       ]
     },
     {
-      "id": "e78869a1-d667-44eb-b426-d852c197789e",
+      "id": "237d5aac-e235-4563-a29c-92f576680cbf",
+      "clientId": "kommonitor-client-config",
+      "rootUrl": "https://kommonitor-template.de/config",
+      "adminUrl": "https://kommonitor-template.de/config",
+      "baseUrl": "https://kommonitor-template.de",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "**********",
+      "redirectUris": [
+        "https://kommonitor-template.de/config/*"
+      ],
+      "webOrigins": [
+        "https://kommonitor-template.de"
+      ],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": true,
+      "publicClient": false,
+      "frontchannelLogout": false,
+      "protocol": "openid-connect",
+      "attributes": {
+        "saml.assertion.signature": "false",
+        "saml.force.post.binding": "false",
+        "saml.multivalued.roles": "false",
+        "saml.encrypt": "false",
+        "saml.server.signature": "false",
+        "saml.server.signature.keyinfo.ext": "false",
+        "exclude.session.state.from.auth.response": "false",
+        "saml_force_name_id_format": "false",
+        "saml.client.signature": "false",
+        "tls.client.certificate.bound.access.tokens": "false",
+        "saml.authnstatement": "false",
+        "display.on.consent.screen": "false",
+        "saml.onetimeuse.condition": "false"
+      },
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": true,
+      "nodeReRegistrationTimeout": -1,
+      "protocolMappers": [
+        {
+          "id": "611234ee-7647-4d84-9381-f3cefd357f65",
+          "name": "Client Host",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientHost",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientHost",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "8b46845f-88cb-46d4-ae69-d394841dea39",
+          "name": "Client IP Address",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientAddress",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientAddress",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "fc371288-1cb9-43fb-9518-464c3bd3692a",
+          "name": "Client ID",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientId",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientId",
+            "jsonType.label": "String"
+          }
+        }
+      ],
+      "defaultClientScopes": [
+        "web-origins",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "id": "0b55d690-805e-4922-b0d3-1e079b63851d",
       "clientId": "kommonitor-data-management",
       "name": "KomMonitor Data Management API",
-      "rootUrl": "http://localhost:8085/",
-      "adminUrl": "http://localhost:8085/",
-      "baseUrl": "http://localhost:8085",
+      "rootUrl": "https://kommonitor-template.de/management",
+      "adminUrl": "https://kommonitor-template.de/management",
+      "baseUrl": "https://kommonitor-template.de/management",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "data-management-secret",
+      "secret": "**********",
       "redirectUris": [
-        "http://localhost:8085/*"
+        "https://kommonitor-template.de/management/*"
       ],
       "webOrigins": [
-        "http://localhost:8085"
+        "https://kommonitor-template.de"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -739,23 +917,14 @@
       "frontchannelLogout": false,
       "protocol": "openid-connect",
       "attributes": {
-        "id.token.as.detached.signature": "false",
         "saml.assertion.signature": "false",
         "saml.force.post.binding": "false",
         "saml.multivalued.roles": "false",
         "saml.encrypt": "false",
-        "oauth2.device.authorization.grant.enabled": "false",
-        "backchannel.logout.revoke.offline.tokens": "false",
         "saml.server.signature": "false",
         "saml.server.signature.keyinfo.ext": "false",
-        "use.refresh.tokens": "true",
         "exclude.session.state.from.auth.response": "false",
-        "oidc.ciba.grant.enabled": "false",
-        "saml.artifact.binding": "false",
-        "backchannel.logout.session.required": "true",
-        "client_credentials.use_refresh_token": "false",
         "saml_force_name_id_format": "false",
-        "require.pushed.authorization.requests": "false",
         "saml.client.signature": "false",
         "tls.client.certificate.bound.access.tokens": "false",
         "saml.authnstatement": "false",
@@ -767,22 +936,7 @@
       "nodeReRegistrationTimeout": -1,
       "protocolMappers": [
         {
-          "id": "c02c4806-7127-4180-a939-befd885efc01",
-          "name": "Client ID",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-usersessionmodel-note-mapper",
-          "consentRequired": false,
-          "config": {
-            "user.session.note": "clientId",
-            "userinfo.token.claim": "true",
-            "id.token.claim": "true",
-            "access.token.claim": "true",
-            "claim.name": "clientId",
-            "jsonType.label": "String"
-          }
-        },
-        {
-          "id": "63be07c7-e66d-45a0-83ea-3e6f0c7a9579",
+          "id": "34c99114-fb6f-49ea-b368-beb2dd27fedf",
           "name": "Client Host",
           "protocol": "openid-connect",
           "protocolMapper": "oidc-usersessionmodel-note-mapper",
@@ -797,7 +951,22 @@
           }
         },
         {
-          "id": "a8548073-a168-47d7-8915-433ce5d0afed",
+          "id": "9819fe59-031d-4faf-9b11-e885b8efc2aa",
+          "name": "Client ID",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientId",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientId",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "d9d77719-628f-4213-a511-637f4a0c609c",
           "name": "Client IP Address",
           "protocol": "openid-connect",
           "protocolMapper": "oidc-usersessionmodel-note-mapper",
@@ -826,22 +995,127 @@
       ]
     },
     {
-      "id": "31049058-5544-4bf1-ae0d-8832754c4d4c",
+      "id": "b155189c-2667-4d06-bbdd-5aa8782c06d7",
+      "clientId": "kommonitor-harvester",
+      "rootUrl": "https://kommonitor-template.de/harvest",
+      "adminUrl": "https://kommonitor-template.de/harvest",
+      "baseUrl": "https://kommonitor-template.de",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "**********",
+      "redirectUris": [
+        "https://kommonitor-template.de/harvest/*"
+      ],
+      "webOrigins": [
+        "https://kommonitor-template.de"
+      ],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": true,
+      "publicClient": false,
+      "frontchannelLogout": false,
+      "protocol": "openid-connect",
+      "attributes": {
+        "saml.assertion.signature": "false",
+        "saml.force.post.binding": "false",
+        "saml.multivalued.roles": "false",
+        "saml.encrypt": "false",
+        "saml.server.signature": "false",
+        "saml.server.signature.keyinfo.ext": "false",
+        "exclude.session.state.from.auth.response": "false",
+        "saml_force_name_id_format": "false",
+        "saml.client.signature": "false",
+        "tls.client.certificate.bound.access.tokens": "false",
+        "saml.authnstatement": "false",
+        "display.on.consent.screen": "false",
+        "saml.onetimeuse.condition": "false"
+      },
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": true,
+      "nodeReRegistrationTimeout": -1,
+      "protocolMappers": [
+        {
+          "id": "1ae1bba3-7341-4dbd-9fc8-b5ff935626b6",
+          "name": "Client ID",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientId",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientId",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "ed69b5f1-5a88-4248-b0e3-55c8fccb1095",
+          "name": "Client Host",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientHost",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientHost",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "c64f471f-5a39-4d1d-9efb-b2e7ba3b2ef9",
+          "name": "Client IP Address",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientAddress",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientAddress",
+            "jsonType.label": "String"
+          }
+        }
+      ],
+      "defaultClientScopes": [
+        "web-origins",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "id": "52f59ecf-8e56-44b3-9a88-1032d55c0402",
       "clientId": "kommonitor-importer",
       "name": "KomMonitor Importer",
-      "rootUrl": "http://localhost:8087/importer",
-      "adminUrl": "http://localhost:8087/importer",
-      "baseUrl": "http://localhost:8087/importer",
+      "rootUrl": "https://kommonitor-template.de/importer",
+      "adminUrl": "https://kommonitor-template.de/importer",
+      "baseUrl": "https://kommonitor-template.de/importer",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "importer-secret",
+      "secret": "**********",
       "redirectUris": [
-        "http://localhost:8087/*"
+        "https://kommonitor-template.de/importer/*"
       ],
       "webOrigins": [
-        "http://localhost:8087"
+        "https://kommonitor-template.de"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -854,23 +1128,14 @@
       "frontchannelLogout": false,
       "protocol": "openid-connect",
       "attributes": {
-        "id.token.as.detached.signature": "false",
         "saml.assertion.signature": "false",
         "saml.force.post.binding": "false",
         "saml.multivalued.roles": "false",
         "saml.encrypt": "false",
-        "oauth2.device.authorization.grant.enabled": "false",
-        "backchannel.logout.revoke.offline.tokens": "false",
         "saml.server.signature": "false",
         "saml.server.signature.keyinfo.ext": "false",
-        "use.refresh.tokens": "true",
         "exclude.session.state.from.auth.response": "false",
-        "oidc.ciba.grant.enabled": "false",
-        "saml.artifact.binding": "false",
-        "backchannel.logout.session.required": "true",
-        "client_credentials.use_refresh_token": "false",
         "saml_force_name_id_format": "false",
-        "require.pushed.authorization.requests": "false",
         "saml.client.signature": "false",
         "tls.client.certificate.bound.access.tokens": "false",
         "saml.authnstatement": "false",
@@ -882,22 +1147,7 @@
       "nodeReRegistrationTimeout": -1,
       "protocolMappers": [
         {
-          "id": "a0fb2c87-5741-4a21-82ff-270542a655a0",
-          "name": "Client IP Address",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-usersessionmodel-note-mapper",
-          "consentRequired": false,
-          "config": {
-            "user.session.note": "clientAddress",
-            "userinfo.token.claim": "true",
-            "id.token.claim": "true",
-            "access.token.claim": "true",
-            "claim.name": "clientAddress",
-            "jsonType.label": "String"
-          }
-        },
-        {
-          "id": "567c7295-06c0-407f-9ccc-aabff129f703",
+          "id": "bb1dc17b-1726-4a95-8391-cb5b2700ad25",
           "name": "Client ID",
           "protocol": "openid-connect",
           "protocolMapper": "oidc-usersessionmodel-note-mapper",
@@ -912,7 +1162,7 @@
           }
         },
         {
-          "id": "9a5f7b44-a6f8-4862-980a-571c9d0ff88b",
+          "id": "5dbc4805-4339-4e65-a084-0fbf8c5ec7d5",
           "name": "Client Host",
           "protocol": "openid-connect",
           "protocolMapper": "oidc-usersessionmodel-note-mapper",
@@ -923,6 +1173,21 @@
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientHost",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "e892cf17-b91c-46e0-959d-db4933b090fb",
+          "name": "Client IP Address",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientAddress",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientAddress",
             "jsonType.label": "String"
           }
         }
@@ -941,21 +1206,232 @@
       ]
     },
     {
-      "id": "593a03a0-73a9-40f3-bc9c-4b59b0e1c331",
-      "clientId": "kommonitor-web-client",
-      "name": "KomMonitor Web Client",
-      "rootUrl": "http://localhost:8000/",
-      "adminUrl": "http://localhost:8000/",
-      "baseUrl": "http://localhost:8000/",
+      "id": "c6f2de78-0a50-4b1f-9f71-d7c24a416742",
+      "clientId": "kommonitor-processing-engine",
+      "rootUrl": "https://kommonitor-template.de/processing",
+      "adminUrl": "https://kommonitor-template.de/processing",
+      "baseUrl": "https://kommonitor-template.de",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
+      "secret": "**********",
       "redirectUris": [
-        "http://localhost:8000/*"
+        "https://kommonitor-template.de/processing/*"
       ],
       "webOrigins": [
-        "http://localhost:8000"
+        "https://kommonitor-template.de"
+      ],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": true,
+      "publicClient": false,
+      "frontchannelLogout": false,
+      "protocol": "openid-connect",
+      "attributes": {
+        "saml.assertion.signature": "false",
+        "saml.force.post.binding": "false",
+        "saml.multivalued.roles": "false",
+        "saml.encrypt": "false",
+        "saml.server.signature": "false",
+        "saml.server.signature.keyinfo.ext": "false",
+        "exclude.session.state.from.auth.response": "false",
+        "saml_force_name_id_format": "false",
+        "saml.client.signature": "false",
+        "tls.client.certificate.bound.access.tokens": "false",
+        "saml.authnstatement": "false",
+        "display.on.consent.screen": "false",
+        "saml.onetimeuse.condition": "false"
+      },
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": true,
+      "nodeReRegistrationTimeout": -1,
+      "protocolMappers": [
+        {
+          "id": "43afc70f-ec20-4df1-b704-e80102ce353e",
+          "name": "Client IP Address",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientAddress",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientAddress",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "dc69b07d-0513-43f8-875f-7331f57095e5",
+          "name": "Client Host",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientHost",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientHost",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "b1544bf5-8e76-4a48-9f9a-ad670d78151a",
+          "name": "Client ID",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientId",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientId",
+            "jsonType.label": "String"
+          }
+        }
+      ],
+      "defaultClientScopes": [
+        "web-origins",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "id": "7b0a773c-f3df-4fa6-8d61-e576a9871d24",
+      "clientId": "kommonitor-processing-scheduler",
+      "rootUrl": "https://kommonitor-template.de",
+      "adminUrl": "https://kommonitor-template.de",
+      "baseUrl": "https://kommonitor-template.de",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "**********",
+      "redirectUris": [
+        "https://kommonitor-template.de/*"
+      ],
+      "webOrigins": [
+        "https://kommonitor-template.de"
+      ],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": true,
+      "publicClient": false,
+      "frontchannelLogout": false,
+      "protocol": "openid-connect",
+      "attributes": {
+        "saml.assertion.signature": "false",
+        "saml.force.post.binding": "false",
+        "saml.multivalued.roles": "false",
+        "saml.encrypt": "false",
+        "saml.server.signature": "false",
+        "saml.server.signature.keyinfo.ext": "false",
+        "exclude.session.state.from.auth.response": "false",
+        "saml_force_name_id_format": "false",
+        "saml.client.signature": "false",
+        "tls.client.certificate.bound.access.tokens": "false",
+        "saml.authnstatement": "false",
+        "display.on.consent.screen": "false",
+        "saml.onetimeuse.condition": "false"
+      },
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": true,
+      "nodeReRegistrationTimeout": -1,
+      "protocolMappers": [
+        {
+          "id": "248f1e8b-3255-4474-acb5-b87547259c9d",
+          "name": "Client IP Address",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientAddress",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientAddress",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "b7457a35-72fe-4e99-bc81-4ff78b2214e1",
+          "name": "Client Host",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientHost",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientHost",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "fdfe8f98-dd25-4b06-a899-1a9d3853ca8b",
+          "name": "Client ID",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientId",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientId",
+            "jsonType.label": "String"
+          }
+        }
+      ],
+      "defaultClientScopes": [
+        "web-origins",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "id": "09a55ba0-9092-4b60-a3d3-be35ed79ea14",
+      "clientId": "kommonitor-web-client",
+      "name": "KomMonitor Web Client",
+      "rootUrl": "https://kommonitor-template.de",
+      "adminUrl": "https://kommonitor-template.de",
+      "baseUrl": "https://kommonitor-template.de",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "**********",
+      "redirectUris": [
+        "https://kommonitor-template.de/*"
+      ],
+      "webOrigins": [
+        "https://kommonitor-template.de"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -968,23 +1444,14 @@
       "frontchannelLogout": false,
       "protocol": "openid-connect",
       "attributes": {
-        "id.token.as.detached.signature": "false",
         "saml.assertion.signature": "false",
         "saml.force.post.binding": "false",
         "saml.multivalued.roles": "false",
         "saml.encrypt": "false",
-        "oauth2.device.authorization.grant.enabled": "false",
-        "backchannel.logout.revoke.offline.tokens": "false",
         "saml.server.signature": "false",
         "saml.server.signature.keyinfo.ext": "false",
-        "use.refresh.tokens": "true",
         "exclude.session.state.from.auth.response": "false",
-        "oidc.ciba.grant.enabled": "false",
-        "saml.artifact.binding": "false",
-        "backchannel.logout.session.required": "true",
-        "client_credentials.use_refresh_token": "false",
         "saml_force_name_id_format": "false",
-        "require.pushed.authorization.requests": "false",
         "saml.client.signature": "false",
         "tls.client.certificate.bound.access.tokens": "false",
         "saml.authnstatement": "false",
@@ -1616,6 +2083,10 @@
     "strictTransportSecurity": "max-age=31536000; includeSubDomains"
   },
   "smtpServer": {},
+  "loginTheme": "kommonitor",
+  "accountTheme": "base",
+  "adminTheme": "base",
+  "emailTheme": "base",
   "eventsEnabled": false,
   "eventsListeners": [
     "jboss-logging"
@@ -1635,13 +2106,13 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
+            "oidc-sha256-pairwise-sub-mapper",
+            "saml-user-property-mapper",
+            "saml-role-list-mapper",
             "oidc-full-name-mapper",
             "oidc-usermodel-attribute-mapper",
-            "oidc-sha256-pairwise-sub-mapper",
-            "oidc-address-mapper",
-            "saml-role-list-mapper",
             "saml-user-attribute-mapper",
-            "saml-user-property-mapper",
+            "oidc-address-mapper",
             "oidc-usermodel-property-mapper"
           ]
         }
@@ -1678,14 +2149,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "saml-role-list-mapper",
-            "saml-user-attribute-mapper",
-            "saml-user-property-mapper",
-            "oidc-usermodel-property-mapper",
+            "oidc-full-name-mapper",
             "oidc-address-mapper",
             "oidc-sha256-pairwise-sub-mapper",
+            "saml-user-property-mapper",
+            "oidc-usermodel-property-mapper",
+            "saml-role-list-mapper",
             "oidc-usermodel-attribute-mapper",
-            "oidc-full-name-mapper"
+            "saml-user-attribute-mapper"
           ]
         }
       },
@@ -1783,11 +2254,15 @@
       }
     ]
   },
-  "internationalizationEnabled": false,
-  "supportedLocales": [],
+  "internationalizationEnabled": true,
+  "supportedLocales": [
+    "de",
+    "en"
+  ],
+  "defaultLocale": "de",
   "authenticationFlows": [
     {
-      "id": "47b37a48-b1cb-47d4-9c92-806c980b5fab",
+      "id": "3eb5b943-10b1-4d45-bc53-254b88ba6593",
       "alias": "Account verification options",
       "description": "Method with which to verity the existing account",
       "providerId": "basic-flow",
@@ -1813,7 +2288,7 @@
       ]
     },
     {
-      "id": "b263f7d6-cd12-434e-894e-1daf21cd860f",
+      "id": "02eea413-6191-46ec-b49a-a1cf3d67d934",
       "alias": "Authentication Options",
       "description": "Authentication options.",
       "providerId": "basic-flow",
@@ -1847,7 +2322,7 @@
       ]
     },
     {
-      "id": "ba696a6f-ef75-4333-8ecd-ff2c69e1a29d",
+      "id": "522ef9a6-de66-4f5d-a699-bcbc1b8fc3bf",
       "alias": "Browser - Conditional OTP",
       "description": "Flow to determine if the OTP is required for the authentication",
       "providerId": "basic-flow",
@@ -1873,7 +2348,7 @@
       ]
     },
     {
-      "id": "58e4cee9-3d10-4990-9538-7be48720dc48",
+      "id": "c35049f8-899c-4c81-b9ab-b544a1685df8",
       "alias": "Direct Grant - Conditional OTP",
       "description": "Flow to determine if the OTP is required for the authentication",
       "providerId": "basic-flow",
@@ -1899,7 +2374,7 @@
       ]
     },
     {
-      "id": "c78ef58b-fd66-4f64-9fd4-d260fc38465f",
+      "id": "c046cbc5-1c18-44aa-a945-b19d0764cb63",
       "alias": "First broker login - Conditional OTP",
       "description": "Flow to determine if the OTP is required for the authentication",
       "providerId": "basic-flow",
@@ -1925,7 +2400,7 @@
       ]
     },
     {
-      "id": "0133b047-ace2-44f2-869a-858158b32aee",
+      "id": "5c0637c9-86e4-476c-9af4-8174395d6455",
       "alias": "Handle Existing Account",
       "description": "Handle what to do if there is existing account with same email/username like authenticated identity provider",
       "providerId": "basic-flow",
@@ -1951,7 +2426,7 @@
       ]
     },
     {
-      "id": "491d0dce-6fba-4020-a866-9638a3805674",
+      "id": "ebfcd238-bdb3-405e-94b5-83736bd33284",
       "alias": "Reset - Conditional OTP",
       "description": "Flow to determine if the OTP should be reset or not. Set to REQUIRED to force.",
       "providerId": "basic-flow",
@@ -1977,7 +2452,7 @@
       ]
     },
     {
-      "id": "c7c8b702-5282-4131-ab12-0ae0ffa9f99b",
+      "id": "d832408b-a8ad-4541-b11b-a161886c0b6f",
       "alias": "User creation or linking",
       "description": "Flow for the existing/non-existing user alternatives",
       "providerId": "basic-flow",
@@ -2004,7 +2479,7 @@
       ]
     },
     {
-      "id": "237ed8ec-dd20-4f03-8e9b-ac5248f8456d",
+      "id": "4c24eef7-7b81-4ddf-8c3e-17000e04b909",
       "alias": "Verify Existing Account by Re-authentication",
       "description": "Reauthentication of existing account",
       "providerId": "basic-flow",
@@ -2030,7 +2505,7 @@
       ]
     },
     {
-      "id": "b3ac8f1f-e74b-45df-a4ca-05461e257792",
+      "id": "d8e7274e-15ac-465a-a6cc-6edfdd2d7f02",
       "alias": "browser",
       "description": "browser based authentication",
       "providerId": "basic-flow",
@@ -2072,7 +2547,7 @@
       ]
     },
     {
-      "id": "bef3befe-2aa1-4ba7-810a-0e1e527ce09d",
+      "id": "06885c9a-b764-409b-b678-98ec34bf4de2",
       "alias": "clients",
       "description": "Base authentication for clients",
       "providerId": "client-flow",
@@ -2114,7 +2589,7 @@
       ]
     },
     {
-      "id": "9d470e33-f278-4d03-9ec0-2b8c96319d7d",
+      "id": "d1d265b5-f632-403e-87c7-b87b809a94cd",
       "alias": "direct grant",
       "description": "OpenID Connect Resource Owner Grant",
       "providerId": "basic-flow",
@@ -2148,7 +2623,7 @@
       ]
     },
     {
-      "id": "f156dccf-d91b-40a9-9733-b889d3af356a",
+      "id": "7468d511-5f6f-4f59-81b1-503bb38a6b05",
       "alias": "docker auth",
       "description": "Used by Docker clients to authenticate against the IDP",
       "providerId": "basic-flow",
@@ -2166,7 +2641,7 @@
       ]
     },
     {
-      "id": "d640fb73-627b-41e3-86fc-e946a208b372",
+      "id": "e08d872a-a598-44d5-b073-4e90a2286e2d",
       "alias": "first broker login",
       "description": "Actions taken after first broker login with identity provider account, which is not yet linked to any Keycloak account",
       "providerId": "basic-flow",
@@ -2193,7 +2668,7 @@
       ]
     },
     {
-      "id": "fa4d6d89-80af-4cb2-b5d3-9800ef60351c",
+      "id": "80fb22ef-851f-4d43-87dd-42ff0683ae24",
       "alias": "forms",
       "description": "Username, password, otp and other auth forms.",
       "providerId": "basic-flow",
@@ -2219,7 +2694,7 @@
       ]
     },
     {
-      "id": "2ecfe4aa-1a64-4fcd-8658-d8f219a7bbe1",
+      "id": "b66ee23d-31db-4d25-8bcc-0fdecea5b953",
       "alias": "http challenge",
       "description": "An authentication flow based on challenge-response HTTP Authentication Schemes",
       "providerId": "basic-flow",
@@ -2245,7 +2720,7 @@
       ]
     },
     {
-      "id": "ab1bc3a4-4efc-4b0b-8da3-cca46b8b826a",
+      "id": "67afa7d5-202a-437f-a086-bb06326d912c",
       "alias": "registration",
       "description": "registration flow",
       "providerId": "basic-flow",
@@ -2264,7 +2739,7 @@
       ]
     },
     {
-      "id": "818ce150-bcf5-4aa3-bd29-596cdc7124a1",
+      "id": "1c600902-4b22-42c1-a5e9-efe99fc8030a",
       "alias": "registration form",
       "description": "registration form",
       "providerId": "form-flow",
@@ -2306,7 +2781,7 @@
       ]
     },
     {
-      "id": "f1ce4ebb-e198-439b-8909-22302b3c50c0",
+      "id": "0ac71a9a-dac9-45d1-b921-89697c277efb",
       "alias": "reset credentials",
       "description": "Reset credentials for a user if they forgot their password or something",
       "providerId": "basic-flow",
@@ -2348,7 +2823,7 @@
       ]
     },
     {
-      "id": "16a0a5ef-b93f-4ed1-ac6d-e807dd8f8b95",
+      "id": "fd14a9f6-094a-40ad-b898-cb000c15c082",
       "alias": "saml ecp",
       "description": "SAML ECP Profile Authentication Flow",
       "providerId": "basic-flow",
@@ -2368,14 +2843,14 @@
   ],
   "authenticatorConfig": [
     {
-      "id": "44b91caf-dec1-4e6d-9783-1b38567d6585",
+      "id": "25a1ee42-471c-4d76-a6fb-5100be5cd478",
       "alias": "create unique user config",
       "config": {
         "require.password.update.after.registration": "false"
       }
     },
     {
-      "id": "6f85ca50-9ae5-45a9-b09b-0a05d5abf5f2",
+      "id": "6bbf4dad-4be1-4f07-9267-2bf3df1b71be",
       "alias": "review profile config",
       "config": {
         "update.profile.on.first.login": "missing"
@@ -2396,8 +2871,8 @@
       "alias": "terms_and_conditions",
       "name": "Terms and Conditions",
       "providerId": "terms_and_conditions",
-      "enabled": false,
-      "defaultAction": false,
+      "enabled": true,
+      "defaultAction": true,
       "priority": 20,
       "config": {}
     },
