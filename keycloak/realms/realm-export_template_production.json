@@ -2084,9 +2084,9 @@
   },
   "smtpServer": {},
   "loginTheme": "kommonitor",
-  "accountTheme": "base",
-  "adminTheme": "base",
-  "emailTheme": "base",
+  "accountTheme": "keycloak",
+  "adminTheme": "keycloak",
+  "emailTheme": "keycloak",
   "eventsEnabled": false,
   "eventsListeners": [
     "jboss-logging"
