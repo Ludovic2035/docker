@@ -1,7 +1,8 @@
 version: '3'
       
 networks:
-  keycloak:
+  kommonitor:
+    name: kommonitor
     driver: bridge
 
 services:
@@ -9,7 +10,7 @@ services:
       image: jboss/keycloak:latest
       container_name: keycloak
       networks:
-        - keycloak
+        - kommonitor
       ports:
         - 8080:8080
       volumes:
@@ -21,4 +22,5 @@ services:
         - KEYCLOAK_USER=admin
         - KEYCLOAK_PASSWORD=KiTdNnJikOBRIEMnAI4U
         - KEYCLOAK_IMPORT=/tmp/realm-export.json
+        - KEYCLOAK_FRONTEND_URL=http://keycloak:8080/auth
         - PROXY_ADDRESS_FORWARDING=true
