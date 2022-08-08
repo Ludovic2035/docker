@@ -35,7 +35,7 @@ services:
        - KEYCLOAK_REALM=kommonitor # keycloak realm name
        - KEYCLOAK_AUTH_SERVER_URL=http://keycloak:8080/auth/ # keycloak target URL inlcuding /auth/
        - KEYCLOAK_RESOURCE=kommonitor-client-config # keycloak client name
-       - KEYCLOAK_CLIENT_SECRET=keycloak-secret # keycloak client secret using access type confidential
+       - KEYCLOAK_CLIENT_SECRET=AJGvyS0i7BXrjG2mQ2vzAOc13gsjiZmQ # keycloak client secret using access type confidential
        - KOMMONITOR_ADMIN_ROLENAME=kommonitor-creator # name of kommonitor admin role within keycloak - default is 'kommonitor-creator' 
 
     redis:
@@ -75,7 +75,7 @@ services:
        - KEYCLOAK_REALM=kommonitor                                    # Keycloak realm name
        - KEYCLOAK_AUTH_SERVER_URL=http://keycloak:8080/auth/         # Keycloak URL ending with "/auth/"
        - KEYCLOAK_RESOURCE=kommonitor-processing-engine               # Keycloak client/resource name
-       - KEYCLOAK_CLIENT_SECRET=keycloak-secret                       # keycloak client secret using access type confidential
+       - KEYCLOAK_CLIENT_SECRET=frr5SuZqsbrg8RB36M36EAOXpefqlDT6                       # keycloak client secret using access type confidential
        - KOMMONITOR_ADMIN_ROLENAME=kommonitor-creator                 # name of kommonitor admin role within keycloak - default is 'kommonitor-creator'
        - KEYCLOAK_ADMIN_RIGHTS_USER_NAME=processor                    # Keycloak internal user name within kommonitor-realm that has administrator role associated in order to grant rigths to fetch all data 
        - KEYCLOAK_ADMIN_RIGHTS_USER_PASSWORD=processor                # Keycloak internal user password within kommonitor-realm that has administrator role associated in order to grant rigths to fetch all data
@@ -92,7 +92,7 @@ services:
       environment:
        - KOMMONITOR_DATA_MANAGEMENT_URL=http://kommonitor-data-management:8085/management      # URL to Data Management service; use docker name and port within same network if possible
        - KOMMONITOR_PROCESSING_ENGINE_URL=http://kommonitor-processing-engine:8086/processing  # URL to Processing Engine service; use docker name and port within same network if possible
-       - CRON_PATTERN_FOR_SCHEDULING=*/30 * * * *     # CRON pattern (refer to https://www.npmjs.com/package/node-cron) for periodic scheduler triggering to initialize missing indicator time-series elements  
+       - CRON_PATTERN_FOR_SCHEDULING=*/5 * * * *     # CRON pattern (refer to https://www.npmjs.com/package/node-cron) for periodic scheduler triggering to initialize missing indicator time-series elements  
        - SETTING_AGGREGATE_SPATIAL_UNITS=false    # default false; global setting whether the computed indictor values from the hierarchically lowest spatial unit shall be aggregated to hierarchically higher spatial units (true) or if each spatial unit shall be computed own their own (false - required that base data is available on the resprctive spatial units)
        - TRIGGER_COMPUTATION_OF_PAST_TIMESTAMPS_OVERWRITING_EXISTING_VALUES=false   # boolean global setting to let scheduler retrigger already computed indicator time-series elements for a certain period in time; good for use cases where historic base data is changed due to new facts, and indicator data - computed from that base data - must be recomputed; applies globally to all computed indicators currently  
        - NUMBER_OF_DAYS_FOR_OVERWRITING_EXISTING_VALUES=7   # number of days within the past to recompute indicator time series values - only relevant if TRIGGER_COMPUTATION_OF_PAST_TIMESTAMPS_OVERWRITING_EXISTING_VALUES=true
@@ -105,7 +105,7 @@ services:
        - KEYCLOAK_REALM=kommonitor                                    # Keycloak realm name
        - KEYCLOAK_AUTH_SERVER_URL=http://keycloak:8080/auth/         # Keycloak URL ending with "/auth/"
        - KEYCLOAK_RESOURCE=kommonitor-processing-scheduler               # Keycloak client/resource name
-       - KEYCLOAK_CLIENT_SECRET=keycloak-secret                       # keycloak client secret using access type confidential
+       - KEYCLOAK_CLIENT_SECRET=YQpbvUqBqNOvv6amE4p4pOQNEYkM5OvN                       # keycloak client secret using access type confidential
        - KOMMONITOR_ADMIN_ROLENAME=kommonitor-creator                 # name of kommonitor admin role within keycloak - default is 'kommonitor-creator'
        - KEYCLOAK_ADMIN_RIGHTS_USER_NAME=scheduler                    # Keycloak internal user name within kommonitor-realm that has administrator role associated in order to grant rigths to fetch all data 
        - KEYCLOAK_ADMIN_RIGHTS_USER_PASSWORD=scheduler                # Keycloak internal user password within kommonitor-realm that has administrator role associated in order to grant rigths to fetch all data 
@@ -130,7 +130,7 @@ services:
        - KEYCLOAK_AUTH_SERVER_URL=http://keycloak:8080/auth/                 # Keycloak URL ending with '/auth/'
        - KEYCLOAK_REALM=kommonitor                                            # Keycloak realm name
        - KEYCLOAK_RESOURCE=kommonitor-importer                                # client/resource id of data management component in Keycloak realm
-       - KEYCLOAK_CREDENTIALS_SECRET=secret                                   # Keycloak secret of this component within Credentials tab of respective Keycloak client; must be set here
+       - KEYCLOAK_CREDENTIALS_SECRET=pp7zmTxqYm3DRZME9Va2maPGwV11be5L                                   # Keycloak secret of this component within Credentials tab of respective Keycloak client; must be set here
       networks:
        - kommonitor
 
@@ -217,7 +217,7 @@ services:
        - keycloak.public-client=false                                         # Keycloak setting that component is not public (its REST endpoints are partially Keycloak-protected and require Authentication)
        - keycloak.cors=true                                                   # enable CORS
        - keycloak.cors-allowed-methods=*                                      # enable all HTTP operations for CORS
-       - keycloak.credentials.secret=secret                                   # Keycloak secret of this component within Credentials tab of respective Keycloak client; must be set here  
+       - keycloak.credentials.secret=zm3tVeZ2nc4VdEecAWzzYe6rXvyor1mx                                   # Keycloak secret of this component within Credentials tab of respective Keycloak client; must be set here  
        - SERVER_MAXHTTPHEADERSIZE=48000                                       
        - server.max-http-header-size=48000
        - kommonitor.roles.admin=kommonitor-creator                                 # name of the Keycloak role that is used as "administrator" role within KomMonitor granting rights to inspect all data and perform all actions. This name of this role is configurable, but must be set to the equal value within management and importer component as well as within Keycloak 
