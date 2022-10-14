@@ -1,8 +1,8 @@
 {
   "id": "kommonitor",
   "realm": "kommonitor",
-  "displayName": "<div class=\"kc-logo-text\"><span>KomMonitor</span></div>",
-  "displayNameHtml": "",
+  "displayName": "KomMonitor",
+  "displayNameHtml": "<div class=\"kc-logo-text\"><span>KomMonitor</span></div>",
   "notBefore": 0,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
