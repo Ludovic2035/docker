@@ -1,90 +1,143 @@
-version: '3'
+version: '3.8'
 
 networks:
   kommonitor:
+    name: kommonitor
     driver: bridge
+
 services:
-    keycloak:
-      image: jboss/keycloak:latest
-      container_name: keycloak
-      volumes:
-        - ../keycloak/realms/realm-export.json:/tmp/realm-export.json
-      environment:
-        DB_VENDOR: h2
-        KEYCLOAK_USER: admin
-        KEYCLOAK_PASSWORD: admin
-        KEYCLOAK_IMPORT: /tmp/realm-export.json
-        KEYCLOAK_FRONTEND_URL: http://localhost:8080/auth
-      expose:
-        - 8080
-      ports:
-        - 8080:8080
-      networks:
-        - kommonitor
+  kommonitor-client:
+    image: 'kommonitor/web-client'
+    container_name: kommonitor-client
+    restart: unless-stopped
+    volumes:
+      - ./client/config-storage-server.json:/usr/share/nginx/html/config/config-storage-server.json # mount config for client-config-service 
+    ports:
+      - 8084:80
+    networks:
+      - kommonitor
 
-    # database container; must use PostGIS database
-    # database is not required to run in docker - will be configured in Data Management component
-    kommonitor-db:
-      image: mdillon/postgis
-      container_name: kommonitor-db
-      ports:
-        - 5432:5432
-      environment:
-        - POSTGRES_USER=${DB_USER}
-        - POSTGRES_PASSWORD=${DB_PW}
-        - POSTGRES_DB=${DB_NAME}
-      volumes:
-        - postgres_data:/var/lib/postgresql/data
-      networks:
-        - kommonitor
+  kommonitor-client-config:
+    image: 'kommonitor/client-config'
+    container_name: kommonitor-client-config
+    restart: unless-stopped
+    ports:
+      - 8088:8088
+    networks:
+      - kommonitor
+    volumes:
+      - ./client_config/webClientAppConfig.js:/code/configStorage/webClientAppConfig.js # mounting existing webClientAppConfig into container to have console access
+      - ./client_config/webClientKeycloakConfig.json:/code/configStorage/webClientKeycloakConfig.json # mounting existing webClientKeycloakConfig into container to have console access
+      - ./client_config/webClientControlsConfig.json:/code/configStorage/webClientControlsConfig.json # mounting existing webClientControlsConfig into container to have console access  
+    env_file:
+      - client_config.env
 
-    # Data Management component encapsulating the database access and management as REST service
-    kommonitor-data-management:
-      image: kommonitor/data-management
-      container_name: kommonitor-data-management
-      depends_on:
-        - kommonitor-db
-        - keycloak
-      expose:
-        - 8085
-      ports:
-        - 8085:8085
-      networks:
-        - kommonitor
-      links:
-        - kommonitor-db
-      env_file:
-        - ./env/data-management.env
-      environment:
-        - DATABASE_USER=${DB_USER}
-        - DATABASE_PASSWORD=${DB_PW}
-        - DATABASE_NAME=${DB_NAME}
-        - SERVER_PORT=8085
-        
-    # Importer component for importing datasets via Data Management
-    # TODO: set proper env variables
-    kommonitor-importer:
-      image: kommonitor/importer:latest
-      env_file:
-        - ./env/importer.env
-      ports:
-        - 8087:8087
-      networks:
-        - kommonitor
-      environment:
-       - SERVER_PORT=8087
+  redis:
+    image: redis:alpine
+    container_name: kommonitor-redis
+    restart: unless-stopped
+    networks:
+      - kommonitor
 
-    # simple REST service that stores and serves various config files for KomMonitor clients (i.e. web-client)   
-    kommonitor-client-config:          
-      image: 'kommonitor/client-config'
-      container_name: kommonitor-client-config
-      ports:
-        - 8088:8088
-      networks:
-       - kommonitor 
-      volumes:
-       - ./config/:/code/configStorage
-      environment:
-       - PORT=8088
-volumes:
- postgres_data:
+  kommonitor-processing-engine:
+    image: 'kommonitor/processing-engine'
+    container_name: kommonitor-processing-engine
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+    networks:
+      - kommonitor
+    volumes:
+      - ./processing_engine:/code/tmp
+    depends_on:
+      - redis
+    env_file:
+      - processing_engine.env
+
+  kommonitor-processing-scheduler:
+    image: 'kommonitor/processing-scheduler'
+    container_name: kommonitor-processing-scheduler
+    restart: unless-stopped
+    networks:
+      - kommonitor
+    depends_on:
+      - kommonitor-processing-engine
+      - kommonitor-data-management
+    env_file:
+      - processing-scheduler.env
+
+  kommonitor-importer:
+    image: 'kommonitor/importer'
+    container_name: kommonitor-importer
+    restart: unless-stopped
+    networks:
+      - kommonitor
+    ports:
+      - 8087:8087
+    volumes:
+      - ./importer:/tmp/importer
+    env_file:
+      - importer.env
+
+  kommonitor-db:
+    image: mdillon/postgis
+    container_name: kommonitor-db
+    restart: unless-stopped
+    networks:
+      - kommonitor
+    ports:
+      - 5432:5432
+    volumes:
+      - ./database/data:/var/lib/postgresql/data
+    env_file:
+      - db.env
+
+  kommonitor-data-management:
+    image: kommonitor/data-management
+    container_name: kommonitor-data-management
+    restart: unless-stopped
+    depends_on:
+      - kommonitor-db
+    ports:
+      - "8085:8085"
+    networks:
+      - kommonitor
+    links:
+      - kommonitor-db
+    env_file:
+      - data-management.env
+
+  # kommonitor-harvester:
+  #   image: kommonitor/harvester
+  #   container_name: kommonitor-harvester
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8089:8089"
+  #   networks:
+  #     - kommonitor
+  #   environment:
+  #    - PORT=8089  # server port
+  #    - FEATURE_ID_PROPERTY_NAME=ID
+  #    - FEATURE_NAME_PROPERTY_NAME=NAME
+  #    - INDICATOR_DATE_PREFIX = "DATE_"
+  #    - ENCRYPTION_COMPLETE_ENABLED=false
+  #    - ENCRYPTION_PASSWORD=password
+  #    - ENCRYPTION_IV_LENGTH_BYTE=16
+  #    - GEOMETRY_SIMPLIFICATION_PARAMETER_NAME=simplifyGeometries
+  #    - GEOMETRY_SIMPLIFICATION_PARAMETER_VALUE=original 
+
+  # optional pgadmin container to inspect the database
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: unless-stopped
+    ports:
+      - 8083:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=user@kommonitor.de
+      - PGADMIN_DEFAULT_PASSWORD=kommonitor
+    # volumes:
+    #   - /var/kommonitor/pgadmin/servers.json:/pgadmin4/servers.json
+    #   - /var/kommonitor/pgadmin/pgadmin:/var/lib/pgadmin
+    networks:
+      - kommonitor
