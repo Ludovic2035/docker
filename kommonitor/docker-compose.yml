@@ -30,7 +30,7 @@ services:
       - ./client_config/webClientKeycloakConfig.json:/code/configStorage/webClientKeycloakConfig.json # mounting existing webClientKeycloakConfig into container to have console access
       - ./client_config/webClientControlsConfig.json:/code/configStorage/webClientControlsConfig.json # mounting existing webClientControlsConfig into container to have console access  
     env_file:
-      - client_config.env
+      - client-config.env
 
   redis:
     image: redis:alpine
@@ -52,7 +52,7 @@ services:
     depends_on:
       - redis
     env_file:
-      - processing_engine.env
+      - processing-engine.env
 
   kommonitor-processing-scheduler:
     image: 'kommonitor/processing-scheduler'
