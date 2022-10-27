@@ -135,7 +135,7 @@ services:
        - kommonitor
 
     kommonitor-db:
-      image: mdillon/postgis
+      image: postgis/postgis:14-3.2    
       container_name: kommonitor-db
       restart: unless-stopped
       ports:

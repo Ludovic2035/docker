@@ -134,8 +134,23 @@ services:
       networks:
        - kommonitor
 
+    # kommonitor-db:
+    #   image: mdillon/postgis
+    #   container_name: kommonitor-db
+    #   restart: unless-stopped
+    #   ports:
+    #     - 5432:5432
+    #   environment:
+    #     - POSTGRES_USER=kommonitor
+    #     - POSTGRES_PASSWORD=kommonitor
+    #     - POSTGRES_DB=kommonitor_data
+    #   volumes:
+    #     - ./database/data:/var/lib/postgresql/data
+    #   networks:
+    #     - kommonitor
+
     kommonitor-db:
-      image: mdillon/postgis
+      image: postgis/postgis:14-3.2
       container_name: kommonitor-db
       restart: unless-stopped
       ports:
