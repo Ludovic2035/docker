@@ -11,7 +11,7 @@ services:
     container_name: kommonitor-client
     restart: unless-stopped
     volumes:
-      - ./client/config-storage-server.json:/usr/share/nginx/html/config/config-storage-server.json # mount config for client-config-service 
+      - ./client/config-storage-server.json:/usr/share/nginx/html/config/config-storage-server.json # mount config for client-config-service
     ports:
       - 8084:80
     networks:
@@ -28,9 +28,10 @@ services:
     volumes:
       - ./client_config/webClientAppConfig.js:/code/configStorage/webClientAppConfig.js # mounting existing webClientAppConfig into container to have console access
       - ./client_config/webClientKeycloakConfig.json:/code/configStorage/webClientKeycloakConfig.json # mounting existing webClientKeycloakConfig into container to have console access
-      - ./client_config/webClientControlsConfig.json:/code/configStorage/webClientControlsConfig.json # mounting existing webClientControlsConfig into container to have console access  
+      - ./client_config/webClientControlsConfig.json:/code/configStorage/webClientControlsConfig.json # mounting existing webClientControlsConfig into container to have console access
     env_file:
       - client-config.env
+      - keycloak.env
 
   redis:
     image: redis:alpine
@@ -53,6 +54,7 @@ services:
       - redis
     env_file:
       - processing-engine.env
+      - keycloak.env
 
   kommonitor-processing-scheduler:
     image: 'kommonitor/processing-scheduler'
@@ -65,6 +67,7 @@ services:
       - kommonitor-data-management
     env_file:
       - processing-scheduler.env
+      - keycloak.env
 
   kommonitor-importer:
     image: 'kommonitor/importer'
@@ -78,9 +81,10 @@ services:
       - ./importer:/tmp/importer
     env_file:
       - importer.env
+      - keycloak.env
 
   kommonitor-db:
-    image: mdillon/postgis
+    image: postgis/postgis:latest
     container_name: kommonitor-db
     restart: unless-stopped
     networks:
@@ -106,25 +110,7 @@ services:
       - kommonitor-db
     env_file:
       - data-management.env
-
-  # kommonitor-harvester:
-  #   image: kommonitor/harvester
-  #   container_name: kommonitor-harvester
-  #   restart: unless-stopped
-  #   ports:
-  #     - "8089:8089"
-  #   networks:
-  #     - kommonitor
-  #   environment:
-  #    - PORT=8089  # server port
-  #    - FEATURE_ID_PROPERTY_NAME=ID
-  #    - FEATURE_NAME_PROPERTY_NAME=NAME
-  #    - INDICATOR_DATE_PREFIX = "DATE_"
-  #    - ENCRYPTION_COMPLETE_ENABLED=false
-  #    - ENCRYPTION_PASSWORD=password
-  #    - ENCRYPTION_IV_LENGTH_BYTE=16
-  #    - GEOMETRY_SIMPLIFICATION_PARAMETER_NAME=simplifyGeometries
-  #    - GEOMETRY_SIMPLIFICATION_PARAMETER_VALUE=original 
+      - keycloak.env
 
   # optional pgadmin container to inspect the database
   pgadmin:

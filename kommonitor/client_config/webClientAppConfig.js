@@ -96,7 +96,7 @@ try {
   window.__env.targetUrlToImporterService = 'http://localhost:8087/importer/';
 
   // KomMonitor Geocoder Proxy
-  window.__env.targetUrlToGeocoderService = 'https://geocoder.fbg-hsbo.de';
+  window.__env.targetUrlToGeocoderService = 'https://geocoder.fbg-hsbo.de/nominatim/';
 
   // optional geometry simplification (a feature of Data Management API)
   window.__env.simplifyGeometriesParameterName = "simplifyGeometries";
