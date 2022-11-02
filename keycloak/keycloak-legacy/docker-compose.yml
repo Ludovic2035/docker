@@ -8,19 +8,18 @@ networks:
 services:
   keycloak:
       image: jboss/keycloak:latest
-      container_name: keycloak
+      # container_name: keycloak
       networks:
         - kommonitor
       ports:
         - 8080:8080
       volumes:
-        - ./themes/kommonitor:/opt/jboss/keycloak/themes/kommonitor
-        - ./realms/realm-export_template_localhost.json:/tmp/realm-export.json
+        - ../realms/realm-export-kommonitor.json:/tmp/realm-export.json
       restart: unless-stopped
       environment:
         - DB_VENDOR=h2      
         - KEYCLOAK_USER=admin
-        - KEYCLOAK_PASSWORD=KiTdNnJikOBRIEMnAI4U
+        - KEYCLOAK_PASSWORD=admin
         - KEYCLOAK_IMPORT=/tmp/realm-export.json
         - KEYCLOAK_FRONTEND_URL=http://keycloak:8080/auth
         - PROXY_ADDRESS_FORWARDING=true
