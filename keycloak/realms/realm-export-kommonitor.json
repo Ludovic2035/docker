@@ -912,16 +912,16 @@
       "id": "0b55d690-805e-4922-b0d3-1e079b63851d",
       "clientId": "kommonitor-data-management",
       "name": "KomMonitor Data Management API",
-      "rootUrl": "http://localhost:8085/management",
-      "adminUrl": "http://localhost:8085/management",
-      "baseUrl": "http://localhost:8085/management",
+      "rootUrl": "http://localhost:8085",
+      "adminUrl": "http://localhost:8085",
+      "baseUrl": "http://localhost:8085",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "http://localhost:8085/management/*"
+        "http://localhost:8085/*"
       ],
       "webOrigins": [
         "http://localhost:8085"
@@ -1143,16 +1143,16 @@
       "id": "52f59ecf-8e56-44b3-9a88-1032d55c0402",
       "clientId": "kommonitor-importer",
       "name": "KomMonitor Importer",
-      "rootUrl": "http://localhost:8087/importer",
-      "adminUrl": "http://localhost:8087/importer",
-      "baseUrl": "http://localhost:8087/importer",
+      "rootUrl": "http://localhost:8087",
+      "adminUrl": "http://localhost:8087",
+      "baseUrl": "http://localhost:8087",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "http://localhost:8087/importer/*"
+        "http://localhost:8087/*"
       ],
       "webOrigins": [
         "http://localhost:8087"
@@ -1373,19 +1373,19 @@
     {
       "id": "7b0a773c-f3df-4fa6-8d61-e576a9871d24",
       "clientId": "kommonitor-processing-scheduler",
-      "rootUrl": "http://localhost:8083",
-      "adminUrl": "http://localhost:8083",
-      "baseUrl": "http://localhost:8083",
+      "rootUrl": "http://localhost:8082",
+      "adminUrl": "http://localhost:8082",
+      "baseUrl": "http://localhost:8082",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "http://localhost:8083/*"
+        "http://localhost:8082/*"
       ],
       "webOrigins": [
-        "http://localhost:8083"
+        "http://localhost:8082"
       ],
       "notBefore": 0,
       "bearerOnly": false,
