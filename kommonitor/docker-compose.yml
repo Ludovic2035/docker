@@ -54,7 +54,6 @@ services:
       - redis
     env_file:
       - processing-engine.env
-      - keycloak.env
 
   kommonitor-processing-scheduler:
     image: 'kommonitor/processing-scheduler:2.0.0'
@@ -67,7 +66,6 @@ services:
       - kommonitor-data-management
     env_file:
       - processing-scheduler.env
-      - keycloak.env
 
   kommonitor-importer:
     image: 'kommonitor/importer:2.0.2'
