@@ -7,7 +7,7 @@ networks:
 
 services:
   kommonitor-client:
-    image: 'kommonitor/web-client'
+    image: 'kommonitor/web-client:2.1.3'
     container_name: kommonitor-client
     restart: unless-stopped
     volumes:
@@ -18,7 +18,7 @@ services:
       - kommonitor
 
   kommonitor-client-config:
-    image: 'kommonitor/client-config'
+    image: 'kommonitor/client-config:2.0.2'
     container_name: kommonitor-client-config
     restart: unless-stopped
     ports:
@@ -41,7 +41,7 @@ services:
       - kommonitor
 
   kommonitor-processing-engine:
-    image: 'kommonitor/processing-engine'
+    image: 'kommonitor/processing-engine:2.0.0'
     container_name: kommonitor-processing-engine
     restart: unless-stopped
     ports:
@@ -57,7 +57,7 @@ services:
       - keycloak.env
 
   kommonitor-processing-scheduler:
-    image: 'kommonitor/processing-scheduler'
+    image: 'kommonitor/processing-scheduler:2.0.0'
     container_name: kommonitor-processing-scheduler
     restart: unless-stopped
     networks:
@@ -70,7 +70,7 @@ services:
       - keycloak.env
 
   kommonitor-importer:
-    image: 'kommonitor/importer'
+    image: 'kommonitor/importer:2.0.2'
     container_name: kommonitor-importer
     restart: unless-stopped
     networks:
@@ -97,7 +97,7 @@ services:
       - db.env
 
   kommonitor-data-management:
-    image: kommonitor/data-management
+    image: kommonitor/data-management:2.1.2
     container_name: kommonitor-data-management
     restart: unless-stopped
     depends_on:

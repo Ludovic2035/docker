@@ -7,7 +7,7 @@ networks:
 
 services:
   keycloak:
-    image: quay.io/keycloak/keycloak:latest
+    image: quay.io/keycloak/keycloak:20.0.0
     # container_name: keycloak
     volumes:
       - ./themes/kommonitor:/opt/keycloak/themes/kommonitor
