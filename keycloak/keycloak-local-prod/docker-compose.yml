@@ -1,0 +1,30 @@
+version: '3'
+      
+networks:
+  kommonitor:
+    name: kommonitor
+    driver: bridge
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:20.0.0
+    container_name: keycloak
+    volumes:
+      - ../realms/realm-export-kommonitor.json:/opt/keycloak/data/import/realm.json
+    command:
+      - start
+      - --import-realm
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    networks:
+      - kommonitor
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_DB=dev-file
+      - KC_HOSTNAME=keycloak
+      - KC_HTTP_ENABLED=true
+      - KC_HOSTNAME_STRICT=false
+      - KC_HOSTNAME_STRICT_HTTPS=false
