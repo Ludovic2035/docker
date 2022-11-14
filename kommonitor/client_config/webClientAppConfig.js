@@ -78,12 +78,12 @@ try {
 
   // Data Management API URL
   // window.__env.apiUrl = 'http://kommonitor.fbg-hsbo.de/';
-  window.__env.apiUrl = 'http://localhost:8085/';
+  window.__env.apiUrl = 'http://localhost/api';
   // Base url for Data Management API
   window.__env.basePath = 'management';
 
   // Processing Engine URL
-  window.__env.targetUrlToProcessingEngine = 'http://localhost:8086/processing/';
+  window.__env.targetUrlToProcessingEngine = 'http://localhost/api/processing/';
 
   // Open Route Service URL
   window.__env.targetUrlToReachabilityService_ORS = 'https://ors5.fbg-hsbo.de';
@@ -93,7 +93,7 @@ try {
   window.__env.targetUrlToReachabilityService_OTP = 'http://localhost:8090/opentripplanner';
 
   // Data Imporret URL
-  window.__env.targetUrlToImporterService = 'http://localhost:8087/importer/';
+  window.__env.targetUrlToImporterService = 'http://localhost/api/importer/';
 
   // KomMonitor Geocoder Proxy
   window.__env.targetUrlToGeocoderService = 'https://geocoder.fbg-hsbo.de/nominatim/';

@@ -6,14 +6,32 @@ networks:
     driver: bridge
 
 services:
+  kommonitor-proxy:
+    image: nginx:latest
+    container_name: kommonitor-proxy
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./proxy:/etc/nginx/templates
+    environment:
+      - NGINX_PORT=80
+      - KEYCLOAK=keycloak:8080
+      - CLIENT=kommonitor-client:80
+      - CLIENT_CONFIG=kommonitor-client-config:8088
+      - PROCESSING_ENGINE=kommonitor-processing-engine:8086
+      - IMPORTER=kommonitor-importer:8087
+      - DATA_MANAGEMENT=kommonitor-data-management:8085
+    networks:
+      - kommonitor
+
   kommonitor-client:
     image: 'kommonitor/web-client:2.1.3'
     container_name: kommonitor-client
     restart: unless-stopped
     volumes:
       - ./client/config-storage-server.json:/usr/share/nginx/html/config/config-storage-server.json # mount config for client-config-service
-    ports:
-      - 8084:80
     networks:
       - kommonitor
 
@@ -21,8 +39,6 @@ services:
     image: 'kommonitor/client-config:2.0.2'
     container_name: kommonitor-client-config
     restart: unless-stopped
-    ports:
-      - 8088:8088
     networks:
       - kommonitor
     volumes:
@@ -44,8 +60,6 @@ services:
     image: 'kommonitor/processing-engine:2.0.0'
     container_name: kommonitor-processing-engine
     restart: unless-stopped
-    ports:
-      - "8086:8086"
     networks:
       - kommonitor
     volumes:
@@ -73,8 +87,6 @@ services:
     restart: unless-stopped
     networks:
       - kommonitor
-    ports:
-      - 8087:8087
     volumes:
       - ./importer:/tmp/importer
     env_file:
@@ -87,10 +99,8 @@ services:
     restart: unless-stopped
     networks:
       - kommonitor
-    ports:
-      - 5432:5432
-    volumes:
-      - ./database/data:/var/lib/postgresql/data
+    #ports:
+    #  - 5432:5432
     env_file:
       - db.env
 
@@ -100,8 +110,6 @@ services:
     restart: unless-stopped
     depends_on:
       - kommonitor-db
-    ports:
-      - "8085:8085"
     networks:
       - kommonitor
     links:
@@ -110,18 +118,18 @@ services:
       - data-management.env
       - keycloak.env
 
-  # optional pgadmin container to inspect the database
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    restart: unless-stopped
-    ports:
-      - 8083:80
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=user@kommonitor.de
-      - PGADMIN_DEFAULT_PASSWORD=kommonitor
-    # volumes:
-    #   - /var/kommonitor/pgadmin/servers.json:/pgadmin4/servers.json
-    #   - /var/kommonitor/pgadmin/pgadmin:/var/lib/pgadmin
-    networks:
-      - kommonitor
+# optional pgadmin container to inspect the database
+#  pgadmin:
+#    image: dpage/pgadmin4
+#    container_name: pgadmin
+#    restart: unless-stopped
+#    ports:
+#      - 8083:80
+#    environment:
+#      - PGADMIN_DEFAULT_EMAIL=user@kommonitor.de
+#      - PGADMIN_DEFAULT_PASSWORD=kommonitor
+#    # volumes:
+#    #   - /var/kommonitor/pgadmin/servers.json:/pgadmin4/servers.json
+#    #   - /var/kommonitor/pgadmin/pgadmin:/var/lib/pgadmin
+#    networks:
+#      - kommonitor

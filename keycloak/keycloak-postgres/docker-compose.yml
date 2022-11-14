@@ -18,6 +18,7 @@ services:
         POSTGRES_DB: keycloak-data
         POSTGRES_USER: keycloak
         POSTGRES_PASSWORD: keycloak
+        PGDATA: /var/lib/pg_data
   keycloak:
       image: quay.io/keycloak/keycloak:20.0.0
       container_name: keycloak
@@ -28,7 +29,13 @@ services:
       volumes:
         - ../realms/realm-export-kommonitor.json:/opt/keycloak/data/import/realm.json
       command:
-        - start-dev
+        - start
+        - --proxy=edge
+        - --hostname-strict=false
+        - --hostname-strict-https=false
+        - --spi-x509cert-lookup-nginx-trust-proxy-verification=true
+        - --http-relative-path=/keycloak
+        - --http-enabled=true
         - --import-realm
       restart: unless-stopped
       depends_on:
