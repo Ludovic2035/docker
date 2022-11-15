@@ -31,7 +31,6 @@ services:
       - ./client_config/webClientControlsConfig.json:/code/configStorage/webClientControlsConfig.json # mounting existing webClientControlsConfig into container to have console access
     env_file:
       - client-config.env
-      - keycloak.env
 
   redis:
     image: redis:alpine
