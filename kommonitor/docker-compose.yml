@@ -18,7 +18,7 @@ services:
       - kommonitor
 
   kommonitor-client-config:
-    image: 'kommonitor/client-config:2.0.2'
+    image: 'kommonitor/client-config:2.0.3'
     container_name: kommonitor-client-config
     restart: unless-stopped
     ports:
