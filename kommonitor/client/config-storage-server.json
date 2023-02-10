@@ -1,5 +1,0 @@
-{
-    "targetUrlToConfigStorageServer_appConfig" : "http://localhost/api/config/client-app-config",
-    "targetUrlToConfigStorageServer_keycloakConfig" : "http://localhost/api/config/client-keycloak-config",
-    "targetUrlToConfigStorageServer_controlsConfig" : "http://localhost/api/config/client-controls-config"
-}
