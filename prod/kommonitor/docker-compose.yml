@@ -12,6 +12,9 @@ services:
     restart: unless-stopped
     volumes:
       - ./client/config-storage-server.json:/usr/share/nginx/html/config/config-storage-server.json # mount config for client-config-service
+      - ./client_config/webClientAppConfig.js:/usr/share/nginx/html/config/env_backup.js
+      - ./client_config/webClientKeycloakConfig.json:/usr/share/nginx/html/config/keycloak_backup.json
+      - ./client_config/webClientControlsConfig.json:/usr/share/nginx/html/config/controls-config_backup.json
     ports:
       - 8084:80
     networks:
