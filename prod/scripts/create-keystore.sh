@@ -1,0 +1,2 @@
+#!/bin/bash
+ docker exec -it kommonitor-data-management sh -c "keytool -importkeystore -srckeystore /etc/kommonitor/certs/cert.p12 -srcstoretype pkcs12 -destkeystore /etc/kommonitor/certs/keystore.jks -deststoretype pkcs12"
