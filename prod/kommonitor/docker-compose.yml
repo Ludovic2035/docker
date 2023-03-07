@@ -83,6 +83,7 @@ services:
       - 8087:8087
     volumes:
       - ./importer:/tmp/importer
+      - ../certs/keystore.jks:/etc/ssl/keystore.jks
     env_file:
       - ./config/importer.env
       - ./config/keycloak.env
@@ -112,6 +113,8 @@ services:
       - kommonitor
     links:
       - kommonitor-db
+    volumes:
+      - ../certs/keystore.jks:/etc/ssl/keystore.jks
     env_file:
       - ./config/data-management.env
       - ./config/keycloak.env
