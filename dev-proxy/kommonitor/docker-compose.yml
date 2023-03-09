@@ -40,7 +40,7 @@ services:
       - kommonitor
 
   kommonitor-processing-engine:
-    image: 'kommonitor/processing-engine:2.0.0'
+    image: 'kommonitor/processing-engine:2.0.2'
     container_name: kommonitor-processing-engine
     restart: unless-stopped
     ports:
@@ -55,7 +55,7 @@ services:
       - ./config/processing-engine.env
 
   kommonitor-processing-scheduler:
-    image: 'kommonitor/processing-scheduler:2.0.0'
+    image: 'kommonitor/processing-scheduler:2.0.2'
     container_name: kommonitor-processing-scheduler
     restart: unless-stopped
     networks:
