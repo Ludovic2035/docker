@@ -1,0 +1,8 @@
+{
+    "realm": "kommonitor",
+    "auth-server-url": "https://keycloak:8443/",
+    "ssl-required": "external",
+    "resource": "kommonitor-web-client",
+    "public-client": true,
+    "confidential-port": 0
+}

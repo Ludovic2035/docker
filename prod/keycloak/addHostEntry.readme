@@ -1,0 +1,6 @@
+All you need to do is add an entry to your hosts file:
+
+    Windows: C:\Windows\System32\drivers\etc\hosts
+    Linux: /etc/hosts
+
+Append this to the end of the file: 127.0.0.1 keycloak
