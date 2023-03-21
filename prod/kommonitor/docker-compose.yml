@@ -7,7 +7,7 @@ networks:
 
 services:
   kommonitor-client:
-    image: 'kommonitor/web-client:2.1.8'
+    image: 'kommonitor/web-client:2.1.11'
     container_name: kommonitor-client
     restart: unless-stopped
     volumes:
@@ -102,7 +102,7 @@ services:
       - ./config/db.env
 
   kommonitor-data-management:
-    image: kommonitor/data-management:2.1.6
+    image: kommonitor/data-management:2.1.8
     container_name: kommonitor-data-management
     restart: unless-stopped
     depends_on:
