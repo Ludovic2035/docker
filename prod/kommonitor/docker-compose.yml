@@ -7,7 +7,7 @@ networks:
 
 services:
   kommonitor-client:
-    image: 'kommonitor/web-client:2.1.11'
+    image: 'kommonitor/web-client:2.1.13'
     container_name: kommonitor-client
     restart: unless-stopped
     volumes:
@@ -74,7 +74,7 @@ services:
       - ./config/processing-scheduler.env
 
   kommonitor-importer:
-    image: 'kommonitor/importer:2.0.4'
+    image: 'kommonitor/importer:2.0.5'
     container_name: kommonitor-importer
     restart: unless-stopped
     networks:
