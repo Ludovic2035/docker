@@ -11,10 +11,10 @@ services:
     container_name: kommonitor-client
     restart: unless-stopped
     volumes:
-      - ./client/config-storage-server.json:/usr/share/nginx/html/config/config-storage-server.json # mount config for client-config-service
-      - ./client_config/webClientAppConfig.js:/usr/share/nginx/html/config/env_backup.js
-      - ./client_config/webClientKeycloakConfig.json:/usr/share/nginx/html/config/keycloak_backup.json
-      - ./client_config/webClientControlsConfig.json:/usr/share/nginx/html/config/controls-config_backup.json
+      - ./client/base/config-storage-server.json:/usr/share/nginx/html/config/config-storage-server.json # mount config for client-config-service
+      - ./client_config/base/webClientAppConfig.js:/usr/share/nginx/html/config/env_backup.js
+      - ./client_config/base/webClientKeycloakConfig.json:/usr/share/nginx/html/config/keycloak_backup.json
+      - ./client_config/base/webClientControlsConfig.json:/usr/share/nginx/html/config/controls-config_backup.json
     ports:
       - 8084:80
     networks:
@@ -29,9 +29,9 @@ services:
     networks:
       - kommonitor
     volumes:
-      - ./client_config/webClientAppConfig.js:/code/configStorage/webClientAppConfig.js # mounting existing webClientAppConfig into container to have console access
-      - ./client_config/webClientKeycloakConfig.json:/code/configStorage/webClientKeycloakConfig.json # mounting existing webClientKeycloakConfig into container to have console access
-      - ./client_config/webClientControlsConfig.json:/code/configStorage/webClientControlsConfig.json # mounting existing webClientControlsConfig into container to have console access
+      - ./client_config/base/webClientAppConfig.js:/code/configStorage/webClientAppConfig.js # mounting existing webClientAppConfig into container to have console access
+      - ./client_config/base/webClientKeycloakConfig.json:/code/configStorage/webClientKeycloakConfig.json # mounting existing webClientKeycloakConfig into container to have console access
+      - ./client_config/base/webClientControlsConfig.json:/code/configStorage/webClientControlsConfig.json # mounting existing webClientControlsConfig into container to have console access
     env_file:
       - ./config/base/client-config.env
 
