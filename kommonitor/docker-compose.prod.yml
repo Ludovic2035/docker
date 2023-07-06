@@ -1,0 +1,38 @@
+services:
+  kommonitor-client:
+    volumes:
+      - ./client/prod/config-storage-server.json:/usr/share/nginx/html/config/config-storage-server.json
+
+  kommonitor-client-config:
+    volumes:
+      - ./client_config/prod/webClientAppConfig.js:/code/configStorage/webClientAppConfig.js
+      - ./client_config/prod/webClientKeycloakConfig.json:/code/configStorage/webClientKeycloakConfig.json
+      - ../certs/cert.pem:/etc/ssl/cert.pem
+    env_file:
+      - ./config/prod/client-config.env
+
+  kommonitor-processing-engine:
+    volumes:
+      - ../certs/cert.pem:/etc/ssl/cert.pem
+    env_file:
+      - ./config/prod/processing-engine.env
+
+  kommonitor-processing-scheduler:
+    volumes:
+      - ../certs/cert.pem:/etc/ssl/cert.pem
+    env_file:
+      - ./config/prod/processing-scheduler.env
+
+  kommonitor-importer:
+    volumes:
+      - ../certs/keystore.jks:/etc/ssl/keystore.jks
+    env_file:
+      - ./config/prod/importer.env
+      - ./config/prod/keycloak.env
+
+  kommonitor-data-management:
+    volumes:
+      - ../certs/keystore.jks:/etc/ssl/keystore.jks
+    env_file:
+      - ./config/prod/data-management.env
+      - ./config/prod/keycloak.env

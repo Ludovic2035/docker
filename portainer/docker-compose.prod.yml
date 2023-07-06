@@ -1,0 +1,9 @@
+services:
+  portainer:
+    ports:
+      - 9443:9443
+    volumes:
+      - ../certs:/certs
+    command:
+      --sslcert /certs/cert.pem
+      --sslkey /certs/key.pem

@@ -1,0 +1,10 @@
+services:
+  kommonitor-proxy:
+    ports:
+      - 443:443
+    volumes:
+      - ./templates/prod:/etc/nginx/templates
+      - ../certs/cert.pem:/etc/ssl/cert.pem
+      - ../certs/key.pem:/etc/ssl/key.pem
+    environment:
+      - NGINX_PORT=443

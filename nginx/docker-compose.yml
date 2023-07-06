@@ -1,0 +1,25 @@
+version: '3.8'
+
+networks:
+  kommonitor:
+    name: kommonitor
+    driver: bridge
+
+services:
+  kommonitor-proxy:
+    image: nginx:latest
+    container_name: kommonitor-proxy
+    restart: unless-stopped
+    ports:
+      - 80:80
+    volumes:
+      - ./templates/base:/etc/nginx/templates
+    environment:
+      - NGINX_PORT=80
+      - CLIENT=kommonitor-client:80
+      - CLIENT_CONFIG=kommonitor-client-config:8088
+      - PROCESSING_ENGINE=kommonitor-processing-engine:8086
+      - IMPORTER=kommonitor-importer:8087
+      - DATA_MANAGEMENT=kommonitor-data-management:8085
+    networks:
+      - kommonitor

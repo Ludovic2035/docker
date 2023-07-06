@@ -1,0 +1,4 @@
+services:
+  kommonitor-proxy:
+    volumes:
+      - ./templates/dev-proxy:/etc/nginx/templates

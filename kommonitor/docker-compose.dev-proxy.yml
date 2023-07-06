@@ -1,0 +1,16 @@
+services:
+  kommonitor-client:
+    volumes:
+      - ./client/dev-proxy/config-storage-server.json:/usr/share/nginx/html/config/config-storage-server.json
+
+  kommonitor-client-config:
+    volumes:
+      - ./client_config/dev-proxy/webClientAppConfig.js:/code/configStorage/webClientAppConfig.js
+
+  kommonitor-importer:
+    env_file:
+      - ./config/dev-proxy/importer.env
+
+  kommonitor-data-management:
+    env_file:
+      - ./config/dev-proxy/data-management.env

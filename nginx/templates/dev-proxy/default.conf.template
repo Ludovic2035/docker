@@ -1,0 +1,48 @@
+upstream client {
+    server ${CLIENT};
+}
+upstream client-config {
+    server ${CLIENT_CONFIG};
+}
+upstream processing-engine {
+    server ${PROCESSING_ENGINE};
+}
+upstream importer {
+    server ${IMPORTER};
+}
+upstream data-management {
+    server ${DATA_MANAGEMENT};
+}
+
+server {
+    listen            ${NGINX_PORT};
+    listen       [::]:${NGINX_PORT};
+
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Nginx-Proxy true;
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header X-Forwarded-Proto $scheme;
+
+    location /kommonitor/api {
+        location /kommonitor/api/importer/ {
+            proxy_pass http://importer/;
+        }
+        location /kommonitor/api/client-config/ {
+            proxy_pass http://client-config/;
+        }
+        location /kommonitor/api/processingengine/ {
+            proxy_pass http://processing-engine/;
+        }
+
+        location /kommonitor/api/datamanagement/ {
+            proxy_pass http://data-management/;
+        }
+    }
+
+    location /kommonitor/ {
+        proxy_pass http://client/;
+    }
+
+}

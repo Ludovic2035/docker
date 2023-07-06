@@ -1,0 +1,11 @@
+services:
+  keycloak:
+    volumes:
+      - ./realms/dev-proxy/realm-export-kommonitor.json:/opt/keycloak/data/import/realm.json
+    command:
+      - start-dev
+      - --import-realm
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_DB=dev-file
