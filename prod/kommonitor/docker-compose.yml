@@ -74,7 +74,7 @@ services:
       - ./config/processing-scheduler.env
 
   kommonitor-importer:
-    image: 'kommonitor/importer:2.0.7'
+    image: 'kommonitor/importer:latest'
     container_name: kommonitor-importer
     restart: unless-stopped
     networks:
@@ -83,7 +83,11 @@ services:
       - 8087:8087
     volumes:
       - ./importer:/tmp/importer
-      - ../certs/keystore.jks:/etc/ssl/keystore.jks
+      - ../certificates:/certificates/
+      # - ../certs:/etc/kommonitor/certs
+      # - ../certs/keystore.jks:/etc/ssl/keystore.jks
+    environment:
+      - USE_SYSTEM_CA_CERTS=1
     env_file:
       - ./config/importer.env
       - ./config/keycloak.env
@@ -114,7 +118,7 @@ services:
     links:
       - kommonitor-db
     volumes:
-      - ../certs/keystore.jks:/etc/ssl/keystore.jks
+      - ../certs/keystore_jdk8.jks:/etc/ssl/keystore.jks
     env_file:
       - ./config/data-management.env
       - ./config/keycloak.env
