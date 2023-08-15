@@ -67,7 +67,7 @@ services:
       - ./config/processing-scheduler.env
 
   kommonitor-importer:
-    image: 'kommonitor/importer:2.0.7'
+    image: 'kommonitor/importer:latest'
     container_name: kommonitor-importer
     restart: unless-stopped
     networks:
