@@ -83,9 +83,7 @@ services:
       - 8087:8087
     volumes:
       - ./importer:/tmp/importer
-      - ../certificates:/certificates/
-      # - ../certs:/etc/kommonitor/certs
-      # - ../certs/keystore.jks:/etc/ssl/keystore.jks
+      - ../certs/cert.pem:/certificates/ca_cert.pem
     environment:
       - USE_SYSTEM_CA_CERTS=1
     env_file:
