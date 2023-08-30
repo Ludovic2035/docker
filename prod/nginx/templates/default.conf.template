@@ -17,7 +17,7 @@ upstream data-management {
 server {
     listen            ${NGINX_PORT} ssl;
     listen       [::]:${NGINX_PORT} ssl;
-        ssl_certificate /etc/ssl/cert.pem;
+    ssl_certificate /etc/ssl/cert.pem;
     ssl_certificate_key /etc/ssl/key.pem;
 
     client_max_body_size 1G;
