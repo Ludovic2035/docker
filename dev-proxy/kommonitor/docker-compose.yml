@@ -12,6 +12,9 @@ services:
     restart: unless-stopped
     volumes:
       - ./client/config-storage-server.json:/usr/share/nginx/html/config/config-storage-server.json # mount config for client-config-service
+      - ./client_config/webClientAppConfig.js:/usr/share/nginx/html/config/env_backup.js
+      - ./client_config/webClientKeycloakConfig.json:/usr/share/nginx/html/config/keycloak_backup.json
+      - ./client_config/webClientControlsConfig.json:/usr/share/nginx/html/config/controls-config_backup.json
     ports:
       - 8084:80
     networks:
@@ -94,7 +97,7 @@ services:
       - ./config/db.env
 
   kommonitor-data-management:
-    image: kommonitor/data-management:2.1.8
+    image: kommonitor/data-management:3.0.0
     container_name: kommonitor-data-management
     restart: unless-stopped
     depends_on:
