@@ -1,0 +1,31 @@
+#header {
+    background: #ffceca;
+}
+
+.btn-custom {
+	background-color: #b62d23;
+}
+
+.btn-custom-right {
+    background-color: #b62d23;
+}
+
+.btn-custom-right:hover {
+    border: 2px solid #b62d23;
+}
+
+input:checked+.switchslider {
+    background-color: #b62d23;
+}
+
+input:focus+.switchslider {
+    box-shadow: 0 0 1px #b62d23;
+}
+
+a {
+    color: #b62d23;
+}
+
+a:hover,a:active,a:focus {
+    color: #d9655c;
+}
