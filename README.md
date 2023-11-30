@@ -12,11 +12,11 @@ services and the Web Client are reachable under their specific ports. No SSL/TLS
 [./dev-proxy](./dev-proxy): Also for development purposes but deploys an NGINX as proxy. KomMonitor backend
 services and the Web Client are reachable under different subpaths via NGINX proxy. No SSL/TLS.
 
-[./prod](./prod): Provides configurations for productions purposes i.e., Keycloak and the NGINX proxy are configured
+[./prod](./prod): Provides configurations for production purposes i.e., Keycloak and the NGINX proxy are configured
 to support SSL/TLS and Keycloak makes use of an RDBMS.
 
 All Docker Compose files make use of the environment files stored within [./config](./config). There are also some
-`*.template` files, which are mounted into the NodeJS based container (Web Client, Processing Engine, Processing
+`*.template` files, which are mounted into the NodeJS based containers (Web Client, Processing Engine, Processing
 Scheduler). Env variables within these files are filled at startup time via `envsubst` command.
 
 Each setup directory also contains an `.env` file, which contains setup specific values for environment variables
@@ -105,13 +105,13 @@ can be used to login into the KomMonitor Web Client. Assign the *kommonitor-crea
 **1. Set up a production grade database**  
 Per default the [./prod/kommonitor/docker-compose.yml](./prod/kommonitor/docker-compose.yml) sets up a PostGIS database
 used as storage for the KomMonitor DataManagement API. Consider using an already existing enterprise database and remove 
-the PostgIS container definition from the Docker Compose file.
+the PostGIS service definition from the Docker Compose file.
 
 **2. Configure KomMonitor**  
-You have to adopt the environment variable within [./prod/kommonitor/.env](./prod/kommonitor/.env) file to
+You have to adopt the environment variables within [./prod/kommonitor/.env](./prod/kommonitor/.env) file to
 your current host, database and Keycloak configuration.
 
-**3. Start KomMonitor**
+**3. Start KomMonitor**  
 Run `docker compose up` from [./prod/kommonitor](./prod/kommonitor). This sets up all components of the KomMonitor stack
 via Docker.
 
@@ -119,10 +119,9 @@ via Docker.
 Start the NGINX proxy by running `docker compose up` from [./prod/nginx](./prod/nginx). This sets up an NGINX, 
 which forwards certain subpath requests to the correct port under which the KomMonitor componets can be reached.
 
-If you wish to change the subpaths, adapt the NGINX configuration template
-[./prod/nginx/template/default.conf.template](./prod/nginx/template/default.conf.template). But don't forget to adapt
-the same paths within [./prod/kommonitor/.env](./prod/kommonitor/.env).
+If you wish to change the subpaths, adapt the [NGINX configuration template](./prod/nginx/templates/default.conf.template).
+But don't forget to also adapt the same paths within [./prod/kommonitor/.env](./prod/kommonitor/.env).
 
 ### Start Portainer
 If you wish to monitor all your Docker containers via [Portainer](https://www.portainer.io/) start an instance from the
-[./prod/portainer](./prod/portainer) directory.
+[./prod/portainer](./prod/portainer) directory via `docker compose up`.
