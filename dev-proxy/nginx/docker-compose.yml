@@ -17,9 +17,11 @@ services:
     environment:
       - NGINX_PORT=80
       - CLIENT=kommonitor-client:80
+      # - CLIENT=host.docker.internal:8000
       - CLIENT_CONFIG=kommonitor-client-config:8088
       - PROCESSING_ENGINE=kommonitor-processing-engine:8086
-      - IMPORTER=kommonitor-importer:8087
+      # - IMPORTER=kommonitor-importer:8087
+      - IMPORTER=host.docker.internal:8087
       - DATA_MANAGEMENT=kommonitor-data-management:8085
     networks:
       - kommonitor

@@ -11,14 +11,24 @@ services:
     container_name: kommonitor-client
     restart: unless-stopped
     volumes:
-      - ./client/config-storage-server.json:/usr/share/nginx/html/config/config-storage-server.json # mount config for client-config-service
-      - ./client_config/webClientAppConfig.js:/usr/share/nginx/html/config/env_backup.js
-      - ./client_config/webClientKeycloakConfig.json:/usr/share/nginx/html/config/keycloak_backup.json
-      - ./client_config/webClientControlsConfig.json:/usr/share/nginx/html/config/controls-config_backup.json
+      - ../../config/templates/config-storage-server.json.template:/usr/share/nginx/html/config/config-storage-server.json.template
+      - ../../config/templates/webClientAppConfig.js.template:/usr/share/nginx/html/config/env_backup.js.template
+      - ../../config/templates/webClientKeycloakConfig.json.template:/usr/share/nginx/html/config/keycloak_backup.json.template
+      - ../../config/templates/webClientControlsConfig.json:/usr/share/nginx/html/config/controls-config_backup.json
+    env_file:
+      - ../../config/client.env
     ports:
       - 8084:80
     networks:
       - kommonitor
+    command: 
+      - /bin/sh
+      - -c
+      - |
+        envsubst < /usr/share/nginx/html/config/config-storage-server.json.template > /usr/share/nginx/html/config/config-storage-server.json
+        envsubst < /usr/share/nginx/html/config/env_backup.js.template > /usr/share/nginx/html/config/env_backup.js
+        envsubst < /usr/share/nginx/html/config/keycloak_backup.json.template > /usr/share/nginx/html/config/keycloak_backup.json
+        nginx -g 'daemon off;'
 
   kommonitor-client-config:
     image: 'kommonitor/client-config:2.0.3'
@@ -29,12 +39,22 @@ services:
     networks:
       - kommonitor
     volumes:
-      - ./client_config/webClientAppConfig.js:/code/configStorage/webClientAppConfig.js # mounting existing webClientAppConfig into container to have console access
-      - ./client_config/webClientKeycloakConfig.json:/code/configStorage/webClientKeycloakConfig.json # mounting existing webClientKeycloakConfig into container to have console access
-      - ./client_config/webClientControlsConfig.json:/code/configStorage/webClientControlsConfig.json # mounting existing webClientControlsConfig into container to have console access
-      - ../certs/cert.pem:/etc/ssl/cert.pem
+      - ../../config/templates/webClientAppConfig.js.template:/code/configStorage/webClientAppConfig.js.template
+      - ../../config/templates/webClientKeycloakConfig.json.template:/code/configStorage/webClientKeycloakConfig.json.template
+      - ../../config/templates/webClientControlsConfig.json:/code/configStorage/webClientControlsConfig.json
+      - ../certs/cert.pem:/etc/ssl/certs/kommonitor-cert.pem
     env_file:
-      - ./config/client-config.env
+      - ../../config/client-config.env
+    environment:
+      - NODE_EXTRA_CA_CERTS=/etc/ssl/certs/kommonitor-cert.pem
+    command: 
+      - /bin/sh
+      - -c
+      - |
+        apk add gettext
+        envsubst < /code/configStorage/webClientAppConfig.js.template > /code/configStorage/webClientAppConfig.js
+        envsubst < /code/configStorage/webClientKeycloakConfig.json.template > /code/configStorage/webClientKeycloakConfig.json
+        npm start
 
   redis:
     image: redis:alpine
@@ -52,12 +72,14 @@ services:
     networks:
       - kommonitor
     volumes:
-      - ./processing_engine:/code/tmp
-      - ../certs/cert.pem:/etc/ssl/cert.pem
+      - ./storage/processing_engine:/code/tmp
+      - ../certs/cert.pem:/etc/ssl/certs/kommonitor-cert.pem
     depends_on:
       - redis
     env_file:
-      - ./config/processing-engine.env
+      - ../../config/processing-engine.env
+    environment:
+      - NODE_EXTRA_CA_CERTS=/etc/ssl/certs/kommonitor-cert.pem
 
   kommonitor-processing-scheduler:
     image: 'kommonitor/processing-scheduler:2.0.2'
@@ -66,12 +88,14 @@ services:
     networks:
       - kommonitor
     volumes:
-      - ../certs/cert.pem:/etc/ssl/cert.pem
+      - ../certs/cert.pem:/etc/ssl/certs/kommonitor-cert.pem
     depends_on:
       - kommonitor-processing-engine
       - kommonitor-data-management
     env_file:
-      - ./config/processing-scheduler.env
+      - ../../config/processing-scheduler.env
+    environment:
+      - NODE_EXTRA_CA_CERTS=/etc/ssl/certs/kommonitor-cert.pem
 
   kommonitor-importer:
     image: 'kommonitor/importer:3.2.1'
@@ -82,13 +106,15 @@ services:
     ports:
       - 8087:8087
     volumes:
-      - ./importer:/tmp/importer
+      - ./storage/importer:/tmp/kommonitor
       - ../certs/cert.pem:/certificates/ca_cert.pem
     environment:
       - USE_SYSTEM_CA_CERTS=1
+      - SPRINGDOC_SWAGGERUI_CONFIGURL=${KOMMONITOR_IMPORTER_BASEPATH}/v3/api-docs/swagger-config
+      - SPRINGDOC_SWAGGERUI_URL=${KOMMONITOR_IMPORTER_BASEPATH}/v3/api-docs
     env_file:
-      - ./config/importer.env
-      - ./config/keycloak.env
+      - ../../config/importer.env
+      - ../../config/keycloak.env
 
   kommonitor-db:
     image: postgis/postgis:latest
@@ -99,16 +125,22 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ./database/data:/var/lib/postgresql/data
+      - ./storage/database/data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d ${DB_NAME} -U ${DB_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     env_file:
-      - ./config/db.env
+      - ../../config/db.env
 
   kommonitor-data-management:
     image: kommonitor/data-management:3.0.0
     container_name: kommonitor-data-management
     restart: unless-stopped
     depends_on:
-      - kommonitor-db
+      kommonitor-db:
+        condition: service_healthy
     ports:
       - "8085:8085"
     networks:
@@ -119,22 +151,24 @@ services:
       - ../certs/cert.pem:/certificates/ca_cert.pem
     environment:
       - USE_SYSTEM_CA_CERTS=1
+      - KOMMONITOR_SWAGGERUI_BASEPATH=${KOMMONITOR_DATA_MANAGEMENT_BASEPATH}
+      - KOMMONITOR_SWAGGERUI_HOST=${KOMMONITOR_HOST_URL}
     env_file:
-      - ./config/data-management.env
-      - ./config/keycloak.env
+      - ../../config/data-management.env
+      - ../../config/keycloak.env
 
   # optional pgadmin container to inspect the database
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    restart: unless-stopped
-    ports:
-      - 8083:80
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=user@kommonitor.de
-      - PGADMIN_DEFAULT_PASSWORD=kommonitor
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   container_name: pgadmin
+  #   restart: unless-stopped
+  #   ports:
+  #     - 8083:80
+  #   environment:
+  #     - PGADMIN_DEFAULT_EMAIL=user@kommonitor.de
+  #     - PGADMIN_DEFAULT_PASSWORD=kommonitor
     # volumes:
     #   - /var/kommonitor/pgadmin/servers.json:/pgadmin4/servers.json
     #   - /var/kommonitor/pgadmin/pgadmin:/var/lib/pgadmin
-    networks:
-      - kommonitor
+    # networks:
+    #   - kommonitor
