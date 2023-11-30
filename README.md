@@ -27,7 +27,7 @@ that acts as placeholder within all other `*.env` files within the [./config](./
 Both the [./dev](./dev) and [./dev-proxy](./dev-proxy) directory contain a ready-to use setup. You can deploy each
 of the components via its Docker Compose file. Just follow the steps below.
 
-#### Start a Keycloak instance:
+#### 1. Start a Keycloak instance:
 You'll find a Docker Compose file with a simple Keycloak configuration within the [./dev/keycloak](./dev/keycloak)
 and [./dev-proxy/keycloak](./dev-proxy/keycloak) directory. For developing purposes, these Keycloak configuration
 uses a H2 file database for persisting data. To start Keycloak just run `docker compose up` within
@@ -39,7 +39,7 @@ Keycloak has a preconfigured "KomMonitor" realm with several KomMonitor clients 
 file as described [here](./dev/keycloak/addHostEntry.readme). Keycloak then will be available under
 http://keycloak:8080/.
 
-#### Start KomMonitor: 
+#### 2. Start KomMonitor: 
 Run `docker compose up` from [./dev/kommonitor](./dev/kommonitor) or [./dev-proxy/kommonitor](./dev-proxy/kommonitor).
 This sets up all components of the KomMonitor stack via Docker. 
 
@@ -48,7 +48,7 @@ This sets up all components of the KomMonitor stack via Docker.
 **Proxy setup:** For the proxy setup the Web Client will be available via http://localhost/kommonitor after you have
 deployed NGINX.
 
-#### Start NGINX proxy
+#### 3. Start NGINX proxy
 To start the NGINX proxy run `docker compose up` from [./dev-proxy/nginx](./dev-proxy/nginx). This sets up an NGINX, 
 which forwards certain subpath requests to the correct port under which the KomMonitor componets can be reached.
 
