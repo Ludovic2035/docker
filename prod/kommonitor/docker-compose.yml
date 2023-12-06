@@ -9,6 +9,14 @@ services:
   kommonitor-client:
     image: 'kommonitor/web-client:2.2.0'
     container_name: kommonitor-client
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.kommonitor-client.entrypoints=websecure"
+      - "traefik.http.routers.kommonitor-client.tls=true"
+      - "traefik.http.routers.kommonitor-client.rule=Host(`${KOMMONITOR_HOST_URL}`) && PathPrefix(`${KOMMONITOR_BASEPATH}`)"
+      - "traefik.http.routers.kommonitor-client.middlewares=kommonitor-client-stripprefix"
+      - "traefik.http.middlewares.kommonitor-client-stripprefix.stripprefix.prefixes=${KOMMONITOR_BASEPATH}"
+      - "traefik.http.services.kommonitor.loadbalancer.server.port=80"
     restart: unless-stopped
     volumes:
       - ../../config/templates/config-storage-server.json.template:/usr/share/nginx/html/config/config-storage-server.json.template
@@ -33,6 +41,14 @@ services:
   kommonitor-client-config:
     image: 'kommonitor/client-config:2.0.3'
     container_name: kommonitor-client-config
+    labels:        
+      - "traefik.enable=true"
+      - "traefik.http.routers.kommonitor-client-config.entrypoints=websecure"
+      - "traefik.http.routers.kommonitor-client-config.tls=true"
+      - "traefik.http.routers.kommonitor-client-config.rule=Host(`${KOMMONITOR_HOST_URL}`) && PathPrefix(`${KOMMONITOR_CONFIG_SERVER_BASEPATH}`)"
+      - "traefik.http.routers.kommonitor-client-config.middlewares=kommonitor-client-config-stripprefix"
+      - "traefik.http.middlewares.kommonitor-client-config-stripprefix.stripprefix.prefixes=${KOMMONITOR_CONFIG_SERVER_BASEPATH}"
+      - "traefik.http.services.kommonitor-client-config.loadbalancer.server.port=8088"
     restart: unless-stopped
     ports:
       - 8088:8088
@@ -66,6 +82,14 @@ services:
   kommonitor-processing-engine:
     image: 'kommonitor/processing-engine:2.0.2'
     container_name: kommonitor-processing-engine
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.kommonitor-processing-engine.entrypoints=websecure"
+      - "traefik.http.routers.kommonitor-processing-engine.tls=true"
+      - "traefik.http.routers.kommonitor-processing-engine.rule=Host(`${KOMMONITOR_HOST_URL}`) && PathPrefix(`${KOMMONITOR_PROCESSING_ENGINE_BASEPATH}`)"
+      - "traefik.http.routers.kommonitor-processing-engine.middlewares=kommonitor-processing-engine-stripprefix"
+      - "traefik.http.middlewares.kommonitor-processing-engine-stripprefix.stripprefix.prefixes=${KOMMONITOR_PROCESSING_ENGINE_BASEPATH}"
+      - "traefik.http.services.kommonitor-processing-engine.loadbalancer.server.port=8085"
     restart: unless-stopped
     ports:
       - "8086:8086"
@@ -100,6 +124,14 @@ services:
   kommonitor-importer:
     image: 'kommonitor/importer:3.2.1'
     container_name: kommonitor-importer
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.kommonitor-importer.entrypoints=websecure"
+      - "traefik.http.routers.kommonitor-importer.tls=true"
+      - "traefik.http.routers.kommonitor-importer.rule=Host(`${KOMMONITOR_HOST_URL}`) && PathPrefix(`${KOMMONITOR_IMPORTER_BASEPATH}`)"
+      - "traefik.http.routers.kommonitor-importer.middlewares=kommonitor-importer-stripprefix"
+      - "traefik.http.middlewares.kommonitor-importer-stripprefix.stripprefix.prefixes=${KOMMONITOR_IMPORTER_BASEPATH}"
+      - "traefik.http.services.kommonitor-importer.loadbalancer.server.port=8087"
     restart: unless-stopped
     networks:
       - kommonitor
@@ -137,6 +169,14 @@ services:
   kommonitor-data-management:
     image: kommonitor/data-management:3.0.0
     container_name: kommonitor-data-management
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.kommonitor-data-management.entrypoints=websecure"
+      - "traefik.http.routers.kommonitor-data-management.tls=true"
+      - "traefik.http.routers.kommonitor-data-management.rule=Host(`${KOMMONITOR_HOST_URL}`) && PathPrefix(`${KOMMONITOR_DATA_MANAGEMENT_BASEPATH}`)"
+      - "traefik.http.routers.kommonitor-data-management.middlewares=kommonitor-data-management-stripprefix"
+      - "traefik.http.middlewares.kommonitor-data-management-stripprefix.stripprefix.prefixes=${KOMMONITOR_DATA_MANAGEMENT_BASEPATH}"
+      - "traefik.http.services.kommonitor-data-management.loadbalancer.server.port=8085"
     restart: unless-stopped
     depends_on:
       kommonitor-db:

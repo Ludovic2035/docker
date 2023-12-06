@@ -1,0 +1,4 @@
+tls:
+  certificates:
+    - certFile: /etc/certs/kommonitor-cert.pem
+      keyFile: /etc/certs/kommonitor-key.pem
