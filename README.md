@@ -9,10 +9,10 @@ You'll find Docker Compose files and configuration files for three different set
 [./dev](./dev): Sets up a first running instance of KomMonitor for development purposes. KomMonitor backend
 services and the Web Client are reachable under their specific ports. No SSL/TLS.
 
-[./dev-proxy](./dev-proxy): Also for development purposes but deploys an NGINX as proxy. KomMonitor backend
-services and the Web Client are reachable under different subpaths via NGINX proxy. No SSL/TLS.
+[./dev-proxy](./dev-proxy): Also for development purposes but uses NGINX or Traefik as proxy. KomMonitor backend
+services and the Web Client are reachable under different subpaths via proxy rotuings. No SSL/TLS.
 
-[./prod](./prod): Provides configurations for production purposes i.e., Keycloak and the NGINX proxy are configured
+[./prod](./prod): Provides configurations for production purposes i.e., Keycloak and the proxy are configured
 to support SSL/TLS and Keycloak makes use of an RDBMS.
 
 All Docker Compose files make use of the environment files stored within [./config](./config). There are also some
@@ -48,9 +48,22 @@ This sets up all components of the KomMonitor stack via Docker.
 **Proxy setup:** For the proxy setup the Web Client will be available via http://localhost/kommonitor after you have
 deployed NGINX.
 
-#### 3. Start NGINX proxy
+#### 3. Start proxy
+You can choose between [NGINX](https://docs.nginx.com/) or [Traefik](https://doc.traefik.io/traefik/) as reverse proxy
+for routing your requests.
+
+##### NGINX
 To start the NGINX proxy run `docker compose up` from [./dev-proxy/nginx](./dev-proxy/nginx). This sets up an NGINX, 
-which forwards certain subpath requests to the correct port under which the KomMonitor componets can be reached.
+which routes certain subpath requests to the correct port under which the KomMonitor componets can be reached. 
+
+##### Traefik
+To start the Traefik proxy run `docker compose up` from [./dev-proxy/traefik](./dev-proxy/traefik). This sets up Traefik, 
+which routes certain subpath requests to the correct port under which the KomMonitor componets can be reached. 
+
+Note, that Traefik supports dynamical configuration i.e., service, middleware and routing configurations are defined
+as Docker labels for each service within [./dev-proxy/kommonitor/docker-compose.yml](./dev-proxy/kommonitor/docker-compose.yml).
+These config definitions are automatically detected by Traefik, which makes it unnecessary to restart Traefik if configurations
+change.
 
 ## Production Setup
 The [./prod](./prod) directory aims to provide configuration files that are easy to adopt for a production deployment.
@@ -115,12 +128,25 @@ your current host, database and Keycloak configuration.
 Run `docker compose up` from [./prod/kommonitor](./prod/kommonitor). This sets up all components of the KomMonitor stack
 via Docker.
 
-### Start NGINX
-Start the NGINX proxy by running `docker compose up` from [./prod/nginx](./prod/nginx). This sets up an NGINX, 
-which forwards certain subpath requests to the correct port under which the KomMonitor componets can be reached.
+#### 3. Start proxy
+You can choose between [NGINX](https://docs.nginx.com/) or [Traefik](https://doc.traefik.io/traefik/) as reverse proxy
+for routing your requests.
+
+##### NGINX
+To start the NGINX proxy run `docker compose up` from [./dev-proxy/nginx](./dev-proxy/nginx). This sets up an NGINX, 
+which routes certain subpath requests to the correct port under which the KomMonitor componets can be reached. 
 
 If you wish to change the subpaths, adapt the [NGINX configuration template](./prod/nginx/templates/default.conf.template).
 But don't forget to also adapt the same paths within [./prod/kommonitor/.env](./prod/kommonitor/.env).
+
+##### Traefik
+To start the Traefik proxy run `docker compose up` from [./dev-proxy/traefik](./dev-proxy/traefik). This sets up Traefik, 
+which routes certain subpath requests to the correct port under which the KomMonitor componets can be reached. 
+
+Note, that Traefik supports dynamical configuration i.e., service, middleware and routing configurations are defined
+as Docker labels for each service within [./dev-proxy/kommonitor/docker-compose.yml](./dev-proxy/kommonitor/docker-compose.yml).
+Here you can adapt routings for your own needs. Config definitions are automatically detected by Traefik, which makes 
+it unnecessary to restart Traefik if configurations change.
 
 ### Start Portainer
 If you wish to monitor all your Docker containers via [Portainer](https://www.portainer.io/) start an instance from the
