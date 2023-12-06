@@ -1,0 +1,22 @@
+version: '3'
+
+networks:
+  kommonitor:
+    name: kommonitor
+    driver: bridge
+
+services:
+  reverse-proxy:
+    image: traefik:v2.10
+    container_name: kommonitor-traefik-proxy
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "9080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - kommonitor
