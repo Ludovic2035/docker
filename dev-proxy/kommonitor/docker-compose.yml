@@ -70,7 +70,7 @@ services:
       - ./config/processing-scheduler.env
 
   kommonitor-importer:
-    image: 'kommonitor/importer:3.2.1'
+    image: 'kommonitor/importer:3.2.2'
     container_name: kommonitor-importer
     restart: unless-stopped
     networks:
@@ -97,7 +97,7 @@ services:
       - ./config/db.env
 
   kommonitor-data-management:
-    image: kommonitor/data-management:3.0.0
+    image: kommonitor/data-management:3.1.0-beta.1
     container_name: kommonitor-data-management
     restart: unless-stopped
     depends_on:
