@@ -13,7 +13,7 @@ services:
     volumes:
       - ../../config/templates/config-storage-server.json.template:/code/templates/config-storage-server.json.template
       - ../../config/config.sh:/code/config.sh
-      - ./storage/client:/usr/share/nginx/html/config
+      - ./storage/client/config-storage-server.json:/usr/share/nginx/html/config/config-storage-server.json
     environment:
       - KOMMONITOR_NAME=kommonitor-web-client
     env_file:

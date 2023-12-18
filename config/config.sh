@@ -22,8 +22,7 @@ fi
 
 if [ "$KOMMONITOR_NAME" == "kommonitor-web-client" ]
 then
-    apk add gettext
-    if [ -f /usr/share/nginx/html/config/config-storage-server.json ];
+    if [ -s /usr/share/nginx/html/config/config-storage-server.json ];
     then
         echo "Client Config Server configuration already set."
     else
