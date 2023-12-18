@@ -12,24 +12,18 @@ services:
     container_name: kommonitor-client
     restart: unless-stopped
     volumes:
-      - ../../config/templates/config-storage-server.json.template:/usr/share/nginx/html/config/config-storage-server.json.template
-      - ../../config/templates/webClientAppConfig.js.template:/usr/share/nginx/html/config/env_backup.js.template
-      - ../../config/templates/webClientKeycloakConfig.json.template:/usr/share/nginx/html/config/keycloak_backup.json.template
-      - ../../config/templates/webClientControlsConfig.json:/usr/share/nginx/html/config/controls-config_backup.json
+      - ../../config/templates/config-storage-server.json.template:/code/templates/config-storage-server.json.template
+      - ../../config/config.sh:/code/config.sh
+      - ./storage/client:/usr/share/nginx/html/config
+    environment:
+      - KOMMONITOR_NAME=kommonitor-web-client
     env_file:
       - ../../config/client.env
     ports:
       - 8084:80
     networks:
       - kommonitor
-    command: 
-      - /bin/sh
-      - -c
-      - |
-        envsubst < /usr/share/nginx/html/config/config-storage-server.json.template > /usr/share/nginx/html/config/config-storage-server.json
-        envsubst < /usr/share/nginx/html/config/env_backup.js.template > /usr/share/nginx/html/config/env_backup.js
-        envsubst < /usr/share/nginx/html/config/keycloak_backup.json.template > /usr/share/nginx/html/config/keycloak_backup.json
-        nginx -g 'daemon off;'
+    command: ["/bin/sh", "/code/config.sh"]
 
   kommonitor-client-config:
     image: 'kommonitor/client-config:2.0.3'
@@ -40,19 +34,14 @@ services:
     networks:
       - kommonitor
     volumes:
-      - ../../config/templates/webClientAppConfig.js.template:/code/configStorage/webClientAppConfig.js.template
-      - ../../config/templates/webClientKeycloakConfig.json.template:/code/configStorage/webClientKeycloakConfig.json.template
-      - ../../config/templates/webClientControlsConfig.json:/code/configStorage/webClientControlsConfig.json
+      - ../../config/templates:/code/templates
+      - ../../config/config.sh:/code/config.sh
+      - ./storage/config_server:/code/configStorage
+    environment:
+      - KOMMONITOR_NAME=kommonitor-client-config
     env_file:
       - ../../config/client-config.env
-    command: 
-      - /bin/sh
-      - -c
-      - |
-        apk add gettext
-        envsubst < /code/configStorage/webClientAppConfig.js.template > /code/configStorage/webClientAppConfig.js
-        envsubst < /code/configStorage/webClientKeycloakConfig.json.template > /code/configStorage/webClientKeycloakConfig.json
-        npm start
+    command: ["/bin/sh", "/code/config.sh"]
 
   redis:
     image: redis:alpine
