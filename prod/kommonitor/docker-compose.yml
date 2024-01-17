@@ -123,7 +123,7 @@ services:
       - ../../config/db.env
 
   kommonitor-data-management:
-    image: kommonitor/data-management:3.1.0-beta.2
+    image: kommonitor/data-management:3.1.0-beta.4
     container_name: kommonitor-data-management
     restart: unless-stopped
     depends_on:
