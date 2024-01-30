@@ -863,7 +863,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "client-config-secret",
       "redirectUris": [
         "http://localhost/kommonitor/api/client-config/*"
       ],
@@ -981,7 +981,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "data-management-secret",
       "redirectUris": [
         "http://localhost/kommonitor/api/datamanagement/*"
       ],
@@ -1214,7 +1214,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "importer-secret",
       "redirectUris": [
         "http://localhost/kommonitor/api/importer/*"
       ],
@@ -1332,7 +1332,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "processing-engine-secret",
       "redirectUris": [
         "http://localhost/kommonitor/api/processingengine/*"
       ],
@@ -1447,7 +1447,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "processing-scheduler-secret",
       "redirectUris": [
         "http://localhost:8082/*"
       ],

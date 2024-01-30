@@ -1,0 +1,8 @@
+{
+    "realm": "${CONFIG_REALM_NAME}",
+    "auth-server-url": "${CONFIG_AUTH_SERVER_URL}",
+    "ssl-required": "external",
+    "resource": "kommonitor-web-client",
+    "public-client": true,
+    "confidential-port": 0
+    }

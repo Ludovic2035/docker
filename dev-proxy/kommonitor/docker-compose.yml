@@ -7,18 +7,22 @@ networks:
 
 services:
   kommonitor-client:
-    image: 'kommonitor/web-client:2.2.0'
+    image: 'kommonitor/web-client:2.2.1'
     container_name: kommonitor-client
     restart: unless-stopped
     volumes:
-      - ./client/config-storage-server.json:/usr/share/nginx/html/config/config-storage-server.json # mount config for client-config-service
-      - ./client_config/webClientAppConfig.js:/usr/share/nginx/html/config/env_backup.js
-      - ./client_config/webClientKeycloakConfig.json:/usr/share/nginx/html/config/keycloak_backup.json
-      - ./client_config/webClientControlsConfig.json:/usr/share/nginx/html/config/controls-config_backup.json
+      - ../../config/templates/config-storage-server.json.template:/code/templates/config-storage-server.json.template
+      - ../../config/config.sh:/code/config.sh
+      - ./storage/client/config-storage-server.json:/usr/share/nginx/html/config/config-storage-server.json
+    environment:
+      - KOMMONITOR_NAME=kommonitor-web-client
+    env_file:
+      - ../../config/client.env
     ports:
       - 8084:80
     networks:
       - kommonitor
+    command: ["/bin/sh", "/code/config.sh"]
 
   kommonitor-client-config:
     image: 'kommonitor/client-config:2.0.3'
@@ -29,11 +33,14 @@ services:
     networks:
       - kommonitor
     volumes:
-      - ./client_config/webClientAppConfig.js:/code/configStorage/webClientAppConfig.js # mounting existing webClientAppConfig into container to have console access
-      - ./client_config/webClientKeycloakConfig.json:/code/configStorage/webClientKeycloakConfig.json # mounting existing webClientKeycloakConfig into container to have console access
-      - ./client_config/webClientControlsConfig.json:/code/configStorage/webClientControlsConfig.json # mounting existing webClientControlsConfig into container to have console access
+      - ../../config/templates:/code/templates
+      - ../../config/config.sh:/code/config.sh
+      - ./storage/config_server:/code/configStorage
+    environment:
+      - KOMMONITOR_NAME=kommonitor-client-config
     env_file:
-      - ./config/client-config.env
+      - ../../config/client-config.env
+    command: ["/bin/sh", "/code/config.sh"]
 
   redis:
     image: redis:alpine
@@ -51,11 +58,11 @@ services:
     networks:
       - kommonitor
     volumes:
-      - ./processing_engine:/code/tmp
+      - ./storage/processing_engine:/code/tmp
     depends_on:
       - redis
     env_file:
-      - ./config/processing-engine.env
+      - ../../config/processing-engine.env
 
   kommonitor-processing-scheduler:
     image: 'kommonitor/processing-scheduler:2.0.2'
@@ -67,10 +74,10 @@ services:
       - kommonitor-processing-engine
       - kommonitor-data-management
     env_file:
-      - ./config/processing-scheduler.env
+      - ../../config/processing-scheduler.env
 
   kommonitor-importer:
-    image: 'kommonitor/importer:3.2.2'
+    image: 'kommonitor/importer:3.2.3'
     container_name: kommonitor-importer
     restart: unless-stopped
     networks:
@@ -78,10 +85,13 @@ services:
     ports:
       - 8087:8087
     volumes:
-      - ./importer:/tmp/importer
+      - ./storage/importer:/tmp/kommonitor
+    environment:
+      - SPRINGDOC_SWAGGERUI_CONFIGURL=${KOMMONITOR_IMPORTER_BASEPATH}/v3/api-docs/swagger-config
+      - SPRINGDOC_SWAGGERUI_URL=${KOMMONITOR_IMPORTER_BASEPATH}/v3/api-docs
     env_file:
-      - ./config/importer.env
-      - ./config/keycloak.env
+      - ../../config/importer.env
+      - ../../config/keycloak.env
 
   kommonitor-db:
     image: postgis/postgis:latest
@@ -92,38 +102,47 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ./database/data:/var/lib/postgresql/data
+      - ./storage/database/data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d ${DB_NAME} -U ${DB_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     env_file:
-      - ./config/db.env
+      - ../../config/db.env
 
   kommonitor-data-management:
-    image: kommonitor/data-management:3.1.0-beta.1
+    image: kommonitor/data-management:3.1.0
     container_name: kommonitor-data-management
     restart: unless-stopped
     depends_on:
-      - kommonitor-db
+      kommonitor-db:
+        condition: service_healthy
     ports:
       - "8085:8085"
     networks:
       - kommonitor
     links:
       - kommonitor-db
-    env_file:
-      - ./config/data-management.env
-      - ./config/keycloak.env
-
-  # optional pgadmin container to inspect the database
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    restart: unless-stopped
-    ports:
-      - 8083:80
     environment:
-      - PGADMIN_DEFAULT_EMAIL=user@kommonitor.de
-      - PGADMIN_DEFAULT_PASSWORD=kommonitor
+      - SPRINGDOC_SWAGGERUI_CONFIGURL=${KOMMONITOR_DATA_MANAGEMENT_BASEPATH}/v3/api-docs/swagger-config
+      - SPRINGDOC_SWAGGERUI_URL=${KOMMONITOR_DATA_MANAGEMENT_BASEPATH}/v3/api-docs
+    env_file:
+      - ../../config/data-management.env
+      - ../../config/keycloak.env
+  
+  # optional pgadmin container to inspect the database
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   container_name: pgadmin
+  #   restart: unless-stopped
+  #   ports:
+  #     - 8083:80
+  #   environment:
+  #     - PGADMIN_DEFAULT_EMAIL=user@kommonitor.de
+  #     - PGADMIN_DEFAULT_PASSWORD=kommonitor
     # volumes:
     #   - /var/kommonitor/pgadmin/servers.json:/pgadmin4/servers.json
     #   - /var/kommonitor/pgadmin/pgadmin:/var/lib/pgadmin
-    networks:
-      - kommonitor
+    # networks:
+    #   - kommonitor
