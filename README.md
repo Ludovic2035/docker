@@ -27,9 +27,12 @@ that acts as placeholder within all other `*.env` files within the [./config](./
 #### Add Residential Area Geodata
 The [Spatial Data Processor](https://github.com/KomMonitor/spatial-data-processor) component requires a shapefile
 that provides geometries for residential areas. Before you start one of the stacks described below, you should
-prepare such a Shapefile that holds residential areas for your region. Some regions may provide such datasets
-as open data. E.g., North Rhine-Westfalia provides the Basis-DLM on its open data portal: https://www.opengeodata.nrw.de/produkte/geobasis/lm/akt/basis-dlm/.
-The [configuration files]() in this repository are prepared for these Basis-DLM shapefiles reprojected in EPSG:4326. 
+prepare such a Shapefile that holds residential areas for your region.
+
+Some regions may provide such datasets as open data. E.g., North Rhine-Westfalia provides the Basis-DLM on its
+[open data portal](https://www.opengeodata.nrw.de/produkte/geobasis/lm/akt/basis-dlm/.). 
+The [configuration files](./config/spatial-data-processor.env#L8-L11) in this repository are prepared for these
+Basis-DLM shapefiles reprojected in EPSG:4326. 
 
 Note, that, up to now, the shapefile must be in EPSG:4326. Be sure that your datasets have this projection. Otherwise,
 you have to reproject them. In future version, we plan to support other CRS by supporting on-the-fly reprojections.
