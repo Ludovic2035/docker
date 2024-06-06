@@ -13,6 +13,9 @@ upstream importer {
 upstream data-management {
     server ${DATA_MANAGEMENT};
 }
+upstream spatial-data-processor {
+    server ${SPATIAL_DATA_PROCESSOR};
+}
 
 server {
     listen            ${NGINX_PORT} ssl;
@@ -39,9 +42,11 @@ server {
         location /kommonitor/api/processingengine/ {
             proxy_pass http://processing-engine/;
         }
-
         location /kommonitor/api/datamanagement/ {
             proxy_pass http://data-management/;
+        }
+        location /kommonitor/api/processor/ {
+            proxy_pass http://spatial-data-processor/;
         }
     }
 

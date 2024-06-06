@@ -7,7 +7,7 @@ networks:
 
 services:
   kommonitor-client:
-    image: 'kommonitor/web-client:2.2.2'
+    image: 'kommonitor/web-client:3.0.3'
     container_name: kommonitor-client
     restart: unless-stopped
     volumes:
@@ -123,7 +123,7 @@ services:
       - ../../config/db.env
 
   kommonitor-data-management:
-    image: kommonitor/data-management:3.2.2
+    image: kommonitor/data-management:4.0.1
     container_name: kommonitor-data-management
     restart: unless-stopped
     depends_on:
@@ -144,6 +144,19 @@ services:
     env_file:
       - ../../config/data-management.env
       - ../../config/keycloak.env
+
+  kommonitor-spatial-data-processor:
+    image: kommonitor/spatial-data-processor:latest
+    container_name: kommonitor-spatial-data-processor
+    restart: unless-stopped
+    networks:
+      - kommonitor
+    ports:
+      - 8090:8090
+    volumes:
+      - ../../data/basis-dlm:/opt/kommonitor/data/basis-dlm
+    env_file:
+      - ../../config/spatial-data-processor.env
 
   # optional pgadmin container to inspect the database
   # pgadmin:
