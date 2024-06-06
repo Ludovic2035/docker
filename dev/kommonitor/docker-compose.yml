@@ -135,11 +135,9 @@ services:
     ports:
       - 8090:8090
     volumes:
-      - ../../data:/opt/kommonitor/data
+      - ../../data/basis-dlm:/opt/kommonitor/data/basis-dlm
     env_file:
       - ../../config/spatial-data-processor.env
-
-
 
   # optional pgadmin container to inspect the database
   # pgadmin:
