@@ -7,7 +7,7 @@ networks:
 
 services:
   kommonitor-client:
-    image: 'kommonitor/web-client:3.0.3'
+    image: 'kommonitor/web-client:3.0.5'
     container_name: kommonitor-client
     restart: unless-stopped
     volumes:
@@ -146,7 +146,7 @@ services:
       - ../../config/keycloak.env
 
   kommonitor-spatial-data-processor:
-    image: kommonitor/spatial-data-processor:1.0.0
+    image: kommonitor/spatial-data-processor:1.0.2
     container_name: kommonitor-spatial-data-processor
     restart: unless-stopped
     networks:
@@ -155,6 +155,9 @@ services:
       - 8090:8090
     volumes:
       - ../../data/basis-dlm:/opt/kommonitor/data/basis-dlm
+      - ../certs/cert.pem:/certificates/ca_cert.pem
+    environment:
+      - USE_SYSTEM_CA_CERTS=1
     env_file:
       - ../../config/spatial-data-processor.env
 

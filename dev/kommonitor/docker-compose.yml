@@ -8,7 +8,7 @@ networks:
 
 services:
   kommonitor-client:
-    image: 'kommonitor/web-client:3.0.3'
+    image: 'kommonitor/web-client:3.0.5'
     container_name: kommonitor-client
     restart: unless-stopped
     volumes:
@@ -127,7 +127,7 @@ services:
       - ../../config/keycloak.env
 
   kommonitor-spatial-data-processor:
-    image: kommonitor/spatial-data-processor:1.0.0
+    image: kommonitor/spatial-data-processor:1.0.2
     container_name: kommonitor-spatial-data-processor
     restart: unless-stopped
     networks:
