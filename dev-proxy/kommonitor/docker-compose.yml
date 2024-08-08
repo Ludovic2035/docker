@@ -141,6 +141,9 @@ services:
       - 8090:8090
     volumes:
       - ../../data/basis-dlm:/opt/kommonitor/data/basis-dlm
+    environment:
+      - SPRINGDOC_SWAGGERUI_CONFIGURL=${KOMMONITOR_SPATIAL_DATA_PROCESSOR_BASEPATH}/v3/api-docs/swagger-config
+      - SPRINGDOC_SWAGGERUI_URL=${KOMMONITOR_SPATIAL_DATA_PROCESSOR_BASEPATH}/v3/api-docs
     env_file:
       - ../../config/spatial-data-processor.env
   
