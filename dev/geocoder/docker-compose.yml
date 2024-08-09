@@ -7,34 +7,30 @@ services:
         ports:
             - "8082:8080"
         environment:
-            # see https://github.com/mediagis/nominatim-docker/tree/master/4.4#configuration for more options
             PBF_URL: https://download.geofabrik.de/europe/germany/nordrhein-westfalen/duesseldorf-regbez-latest.osm.pbf
             REPLICATION_URL: https://download.geofabrik.de/europe/germany/nordrhein-westfalen/duesseldorf-regbez-updates/
             REPLICATION_UPDATE_INTERVAL: 86400
             UPDATE_MODE: once
             REPLICATION_RECHECK_INTERVAL: 300
             NOMINATIM_PASSWORD: admin
-            
-
         volumes:
             - nominatim-data:/var/lib/postgresql/14/main
         shm_size: 1gb
         healthcheck:
-            test: ["CMD", "curl", "-f", "http://localhost"]
-            #interval: 30s
-            interval: 1m30s
+            test: ["CMD", "curl", "-f", "http://localhost:8080/status"]
+            interval: 2m
             timeout: 10s
             retries: 3
-            start_period: 40s
-            start_interval: 5s
+            start_period: 30m
+            start_interval: 10s
     kommonitor-geocoder-proxy:
         container_name: geocode-proxy
         image: kommonitor/geocoder-proxy
         ports:
-            - 8091:8091
+            - 8092:8092
         environment:
+            PORT: 8092
             NOMINATIM_URL: http://nominatim:8080
-            #NOMINATIM_URL: nominatim:8080
         depends_on:
             nominatim:
                 condition: service_healthy
