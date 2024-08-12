@@ -158,6 +158,8 @@ services:
       - ../certs/cert.pem:/certificates/ca_cert.pem
     environment:
       - USE_SYSTEM_CA_CERTS=1
+      - SPRINGDOC_SWAGGERUI_CONFIGURL=${KOMMONITOR_SPATIAL_DATA_PROCESSOR_BASEPATH}/v3/api-docs/swagger-config
+      - SPRINGDOC_SWAGGERUI_URL=${KOMMONITOR_SPATIAL_DATA_PROCESSOR_BASEPATH}/v3/api-docs
     env_file:
       - ../../config/spatial-data-processor.env
 
