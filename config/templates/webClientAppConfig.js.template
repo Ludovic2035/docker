@@ -118,7 +118,8 @@ try {
   window.__env.targetUrlToImporterService = '${CONFIG_IMPORTER_API_URL}';
 
   // KomMonitor Geocoder Proxy
-  window.__env.targetUrlToGeocoderService = 'https://geocoder.fbg-hsbo.de/nominatim/';
+  //window.__env.targetUrlToGeocoderService = 'https://geocoder.fbg-hsbo.de/nominatim/';
+  window.__env.targetUrlToGeocoderService = 'http://localhost:8092/nominatim/';
 
   // KomMonitor Spatial Data Processor
   window.__env.targetUrlToSpatialDataProcessorInstance = '${CONFIG_SPATIAL_DATA_PROCESSOR_API_URL}';
