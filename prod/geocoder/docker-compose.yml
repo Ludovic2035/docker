@@ -37,4 +37,7 @@ services:
 
 volumes:
     nominatim-data:
+
     
+
+
