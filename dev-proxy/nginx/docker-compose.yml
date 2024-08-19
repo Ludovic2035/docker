@@ -22,5 +22,6 @@ services:
       - IMPORTER=kommonitor-importer:8087
       - DATA_MANAGEMENT=kommonitor-data-management:8085
       - SPATIAL_DATA_PROCESSOR=kommonitor-spatial-data-processor:8090
+      - GEOCODER_PROXY=kommonitor-geocoder-proxy:8092
     networks:
       - kommonitor

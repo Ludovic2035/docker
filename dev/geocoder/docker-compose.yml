@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 
 services:
     nominatim:
@@ -15,6 +15,7 @@ services:
             NOMINATIM_PASSWORD: admin
         volumes:
             - nominatim-data:/var/lib/postgresql/14/main
+
         shm_size: 1gb
         healthcheck:
             test: ["CMD", "curl", "-f", "http://localhost:8080/status"]
@@ -34,6 +35,8 @@ services:
         depends_on:
             nominatim:
                 condition: service_healthy
+        volumes:
+            - ./config/openapi.yaml:/code/api/openapi.yaml
 
 volumes:
     nominatim-data:
