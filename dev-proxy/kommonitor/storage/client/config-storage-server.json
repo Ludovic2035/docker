@@ -1,0 +1,5 @@
+{
+    "targetUrlToConfigStorageServer_appConfig" : "http://localhost/kommonitor/api/client-config/config/client-app-config",
+    "targetUrlToConfigStorageServer_keycloakConfig" : "http://localhost/kommonitor/api/client-config/config/client-keycloak-config",
+    "targetUrlToConfigStorageServer_controlsConfig" : "http://localhost/kommonitor/api/client-config/config/client-controls-config"
+}

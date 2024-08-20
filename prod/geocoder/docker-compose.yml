@@ -1,6 +1,12 @@
 version: "3"
 
+networks:
+    kommonitor:
+        name: kommonitor
+        driver: bridge
+
 services:
+
     nominatim:
         container_name: nominatim
         image: mediagis/nominatim:4.4
@@ -35,7 +41,10 @@ services:
             nominatim:
                 condition: service_healthy
         volumes:
-            - ./config/openapi.yaml:/code/api/openapi.yaml
+            - ../../config/openapi.yaml:/code/api/openapi.yaml
+
+        networks:
+            - kommonitor
 
 volumes:
     nominatim-data:

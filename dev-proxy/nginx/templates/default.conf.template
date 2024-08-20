@@ -16,6 +16,9 @@ upstream data-management {
 upstream spatial-data-processor {
     server ${SPATIAL_DATA_PROCESSOR};
 }
+upstream geocoder-proxy {
+    server ${GEOCODER_PROXY};
+}
 
 server {
     listen            ${NGINX_PORT};
@@ -43,6 +46,9 @@ server {
         }
         location /kommonitor/api/processor/ {
             proxy_pass http://spatial-data-processor/;
+        }
+        location /kommonitor/api/geocoderproxy/ {
+            proxy_pass http://geocoder-proxy/;
         }
     }
 

@@ -15,8 +15,8 @@ externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
 servers:
-#- url: https://geocoder.fbg-hsbo.de/
 - url: http://localhost:8092/
+- url: http://localhost/kommonitor/api/geocoderproxy/
 tags:
 - name: geocode
   description: geocode locations or reverse geocode coordinates

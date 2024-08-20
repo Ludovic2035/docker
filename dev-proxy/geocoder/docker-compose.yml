@@ -35,7 +35,7 @@ services:
             nominatim:
                 condition: service_healthy
         volumes:
-            - ./config/openapi.yaml:/code/api/openapi.yaml
+            - ../../config/openapi.yaml:/code/api/openapi.yaml
 
 volumes:
     nominatim-data:
